@@ -1,6 +1,6 @@
 # Publish the prepared project
 
-**Publication completed:** after the user created the public repository, the existing project was pushed to [suzenops/pyzencode](https://github.com/suzenops/pyzencode) and [PR #1](https://github.com/suzenops/pyzencode/pull/1) was opened into `main`. It remains unmerged. No Mac upload is needed.
+**Publication completed:** after the user created the public repository, the existing project was pushed to [suzenops/pyzencode](https://github.com/suzenops/pyzencode) and [PR #1](https://github.com/suzenops/pyzencode/pull/1) was opened into `main`. That initial PR has been merged. No Mac upload is needed.
 
 The instructions below record the original fallback handoff after the integration denied repository creation. Do not repeat the bootstrap pushes against the now-populated repository. To use the published app, follow the feature-branch clone command in the root README. Yunomi was not modified.
 

@@ -11,6 +11,15 @@ export type ExecutionResult = {
   prints: PrintCall[];
   error?: PythonError;
   duration: number;
+  variables?: Record<string, VariableSnapshot>;
+  typeCalls?: VariableSnapshot[];
+  assignments?: Record<string, VariableSnapshot[]>;
+  caseResults?: { name: string; result: ExecutionResult }[];
+};
+export type VariableSnapshot = { type: string; value: string };
+export type RunOptions = {
+  observe?: string[];
+  cases?: { name: string; overrides: Record<string, string | number> }[];
 };
 export type RuntimeStatus = "idle" | "loading" | "running";
 export type WorkerMessage =

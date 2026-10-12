@@ -1,5 +1,14 @@
-import { debugExercises, exercises } from "../content/exercises";
-import { lesson, quiz } from "../content/lesson";
+import {
+  allExercises,
+  allQuiz,
+  getLesson,
+  lessons,
+  sectionKey,
+  draftKey,
+  lessonPath,
+  labPath,
+} from "../content/lessons";
+import type { LessonContent } from "../content/types";
 export const STORAGE_KEY = "pyzencode.progress.v1";
 export type Progress = {
   version: 1;
@@ -17,7 +26,16 @@ export const emptyProgress = (): Progress => ({
   drafts: {},
   activity: [],
 });
-const allIds = [...exercises, ...debugExercises].map((e) => e.id);
+const allIds = allExercises.map((e) => e.id);
+const sectionIds = lessons.flatMap((l) =>
+  l.sections.map((s) => sectionKey(l, s.id)),
+);
+const draftIds = lessons.flatMap((l) =>
+  l.sections.flatMap((s) => [
+    draftKey(l, s.id),
+    ...(s.examples ?? []).map((e) => draftKey(l, s.id, e.id)),
+  ]),
+);
 export function parseProgress(raw: string | null): Progress {
   if (raw === null) return emptyProgress();
   const value = JSON.parse(raw);
@@ -43,15 +61,14 @@ export function parseProgress(raw: string | null): Progress {
     sections: [
       ...new Set<string>(
         value.sections.filter(
-          (id: unknown) =>
-            typeof id === "string" && lesson.sections.some((s) => s.id === id),
+          (id: unknown) => typeof id === "string" && sectionIds.includes(id),
         ),
       ),
     ],
     answers: Object.fromEntries(
       Object.entries(value.answers)
         .filter(([id, n]) =>
-          quiz.some(
+          allQuiz.some(
             (q) =>
               q.id === id &&
               Number.isInteger(n) &&
@@ -67,11 +84,7 @@ export function parseProgress(raw: string | null): Progress {
           ([id, code]) =>
             typeof code === "string" &&
             code.length <= 20000 &&
-            [
-              ...allIds,
-              "playground",
-              ...lesson.sections.map((s) => `section-${s.id}`),
-            ].includes(id),
+            [...allIds, "playground", ...draftIds].includes(id),
         )
         .map(([id, code]) => [id, String(code)]),
     ),
@@ -109,16 +122,53 @@ export class LocalProgressRepository implements ProgressRepository {
     this.storage.removeItem(STORAGE_KEY);
   }
 }
-export function points(p: Progress) {
+export function points(p: Progress, lessonId?: string) {
+  const labs = (
+    lessonId ? lessons.filter((l) => l.id === lessonId) : lessons
+  ).flatMap((l) => l.exercises);
   return (
-    p.completed.filter((id) => exercises.some((e) => e.id === id)).length * 10
+    [...new Set(p.completed)].filter((id) => labs.some((e) => e.id === id))
+      .length * 10
   );
 }
-export function lessonComplete(p: Progress) {
+export function lessonComplete(p: Progress, lessonId = "first-program") {
+  const lesson = getLesson(lessonId);
   return (
-    lesson.sections.every((s) => p.sections.includes(s.id)) &&
-    quiz.every((q) => p.answers[q.id] === q.correct) &&
-    exercises.every((e) => p.completed.includes(e.id))
+    !!lesson &&
+    lesson.sections.every((s) =>
+      p.sections.includes(sectionKey(lesson, s.id)),
+    ) &&
+    lesson.quiz.every((q) => p.answers[q.id] === q.correct) &&
+    lesson.exercises.every((e) => p.completed.includes(e.id))
+  );
+}
+export function lessonUnlocked(p: Progress, lessonId: string) {
+  const lesson = getLesson(lessonId);
+  return (
+    !!lesson && (!lesson.prerequisite || lessonComplete(p, lesson.prerequisite))
+  );
+}
+export function currentLesson(p: Progress): LessonContent {
+  return (
+    lessons.find((l) => lessonUnlocked(p, l.id) && !lessonComplete(p, l.id)) ??
+    lessons[lessons.length - 1]
+  );
+}
+export function continueLearning(p: Progress) {
+  const lesson = currentLesson(p);
+  if (lessonComplete(p, lesson.id)) return "/progress";
+  const section = lesson.sections.find(
+    (s) => !p.sections.includes(sectionKey(lesson, s.id)),
+  );
+  if (section) return lessonPath(lesson, section.id);
+  if (lesson.quiz.some((q) => p.answers[q.id] !== q.correct))
+    return lessonPath(lesson, "quiz");
+  return labPath(
+    lesson,
+    Math.max(
+      1,
+      lesson.exercises.findIndex((e) => !p.completed.includes(e.id)) + 1,
+    ),
   );
 }
 export function completeExercise(
@@ -128,7 +178,7 @@ export function completeExercise(
   at = new Date().toISOString(),
 ): Progress {
   if (!passed || !allIds.includes(id) || p.completed.includes(id)) return p;
-  const exercise = [...exercises, ...debugExercises].find((e) => e.id === id)!;
+  const exercise = allExercises.find((e) => e.id === id)!;
   return {
     ...p,
     completed: [...p.completed, id],

@@ -4,9 +4,8 @@
     "title": "Python Foundations",
     "topics": [
       "Python and print()",
+      "Variables and Data Types",
       "Arithmetic operators",
-      "Variables",
-      "Data types",
       "Type conversions",
       "User input"
     ]

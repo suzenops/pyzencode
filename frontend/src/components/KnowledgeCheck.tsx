@@ -1,20 +1,37 @@
 import { quiz } from "../content/lesson";
+import type { QuizQuestion } from "../content/types";
 import { useProgress } from "../progress/ProgressProvider";
-export function KnowledgeCheck() {
+export function KnowledgeCheck({
+  questions = quiz,
+  compact = false,
+}: {
+  questions?: QuizQuestion[];
+  compact?: boolean;
+}) {
   const { progress, update } = useProgress();
-  const count = quiz.filter((q) => progress.answers[q.id] === q.correct).length;
+  const count = questions.filter(
+    (q) => progress.answers[q.id] === q.correct,
+  ).length;
   return (
     <div>
       <div className="section-heading">
-        <span className="eyebrow">SECTION I</span>
-        <h2>Check your understanding.</h2>
+        <span className="eyebrow">
+          {compact ? "A QUICK CHECK" : "SECTION I"}
+        </span>
+        {compact ? (
+          <h3>Pause and predict.</h3>
+        ) : (
+          <h2>Check your understanding.</h2>
+        )}
         <p>
           Choose an answer. Read the explanation, and try again whenever you
           need to.
         </p>
-        <span className="pill">{count} / 5 correct</span>
+        <span className="pill">
+          {count} / {questions.length} correct
+        </span>
       </div>
-      {quiz.map((q, i) => {
+      {questions.map((q, i) => {
         const selected = progress.answers[q.id];
         return (
           <fieldset className="quiz-card" key={q.id}>

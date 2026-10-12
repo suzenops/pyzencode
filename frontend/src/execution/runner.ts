@@ -1,4 +1,9 @@
-import type { ExecutionResult, RuntimeStatus, WorkerMessage } from "./types";
+import type {
+  ExecutionResult,
+  RuntimeStatus,
+  WorkerMessage,
+  RunOptions,
+} from "./types";
 export interface WorkerPort {
   onmessage: ((event: MessageEvent<WorkerMessage>) => void) | null;
   onerror: ((event: ErrorEvent) => void) | null;
@@ -16,6 +21,7 @@ export class PythonRunner {
   run(
     code: string,
     status: (value: RuntimeStatus) => void = () => {},
+    options?: RunOptions,
   ): Promise<ExecutionResult> {
     this.cancel();
     if (code.length > 20000)
@@ -83,7 +89,9 @@ export class PythonRunner {
               ),
             this.executionMs,
           );
-          worker.postMessage({ type: "run", code });
+          worker.postMessage(
+            options ? { type: "run", code, options } : { type: "run", code },
+          );
         } else if (message.type === "init-error") {
           fail(
             "InitializationError",

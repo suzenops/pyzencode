@@ -2,21 +2,31 @@ import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { PageTitle } from "../components/Shared";
 import { CodeWorkspace } from "../components/Workspace";
-import { debugExercises, exercises } from "../content/exercises";
+import { debugExercises } from "../content/exercises";
+import { getLesson, lessonPath, labPath } from "../content/lessons";
+import { LessonAccess } from "../components/LessonAccess";
 import { useProgress } from "../progress/ProgressProvider";
 export function Lab({ debug = false }: { debug?: boolean }) {
-  const { number = "1" } = useParams();
-  const list = debug ? debugExercises : exercises;
+  const { number = "1", lessonId = "first-program" } = useParams();
+  const lesson = getLesson(lessonId);
+  const list = debug ? debugExercises : (lesson?.exercises ?? []);
   const index = Number(number) - 1;
   const exercise = list[index];
-  const base = debug ? "/debug" : "/lab";
+  const base = debug
+    ? "/debug"
+    : labPath(lesson ?? getLesson()!).replace(/\/1$/, "");
   const { progress } = useProgress();
+  if (!lesson) return <Navigate to="/curriculum" replace />;
   if (!exercise) return <Navigate to={`${base}/1`} replace />;
   const solved = list.filter((e) => progress.completed.includes(e.id)).length;
   return (
-    <>
+    <LessonAccess lesson={lesson}>
       <PageTitle
-        label={debug ? "LEARN THROUGH MISTAKES" : "LEVEL 1 · PRACTICAL LAB"}
+        label={
+          debug
+            ? "LEARN THROUGH MISTAKES"
+            : `LEVEL 1 · LESSON ${lesson.number} · PRACTICAL LAB`
+        }
         title={
           debug
             ? "Debug Lab. Find the clue."
@@ -25,7 +35,9 @@ export function Lab({ debug = false }: { debug?: boolean }) {
         subtitle={
           debug
             ? "Run the broken code. Read the error. Make one careful change."
-            : "Ten exercises to make your first Python concepts your own."
+            : lesson.id === "variables"
+              ? "Ten exercises to store, update and use information with confidence."
+              : "Ten exercises to make your first Python concepts your own."
         }
       />
       <div className="lab-nav">
@@ -101,12 +113,12 @@ export function Lab({ debug = false }: { debug?: boolean }) {
                 : "Each lab question awards 10 points once. Repeated checks never add duplicate points."}
             </p>
           </div>
-          <Link to="/lesson/h" className="quiet-link">
+          <Link to={lessonPath(lesson, "h")} className="quiet-link">
             How to read Python errors <ArrowRight size={14} />
           </Link>
         </aside>
       </div>
-    </>
+    </LessonAccess>
   );
 }
 function LightbulbNote() {

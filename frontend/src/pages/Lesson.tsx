@@ -7,47 +7,64 @@ import {
   useParams,
 } from "react-router-dom";
 import { KnowledgeCheck } from "../components/KnowledgeCheck";
+import { LessonAccess } from "../components/LessonAccess";
 import { PageTitle } from "../components/Shared";
 import { CodeWorkspace } from "../components/Workspace";
-import { lesson, syntaxTokens } from "../content/lesson";
+import {
+  draftKey,
+  getLesson,
+  labPath,
+  lessonPath,
+  sectionKey,
+} from "../content/lessons";
 import { useProgress } from "../progress/ProgressProvider";
 export function Lesson() {
-  const { section = "a" } = useParams();
+  const { section = "a", lessonId = "first-program" } = useParams();
   const navigate = useNavigate();
   const { progress, update } = useProgress();
+  const lesson = getLesson(lessonId);
+  if (!lesson) return <Navigate to="/curriculum" replace />;
   const index = lesson.sections.findIndex((s) => s.id === section);
   const current = lesson.sections[index];
-  const sections = [
+  const outline = [
     ...lesson.sections.map((s) => ({ id: s.id, title: s.title })),
     { id: "quiz", title: "Knowledge check" },
     { id: "lab", title: "Coding lab" },
   ];
   if (!current && !["quiz", "lab"].includes(section))
-    return <Navigate to="/lesson/a" replace />;
+    return <Navigate to={lessonPath(lesson)} replace />;
   return (
-    <>
+    <LessonAccess lesson={lesson}>
       <div className="breadcrumb">
         <Link to="/curriculum">Foundations</Link>
         <ChevronRight size={13} />
-        Lesson 01
+        Lesson {String(lesson.number).padStart(2, "0")}
       </div>
       <PageTitle
-        label="LEVEL 1 · LESSON 1"
+        label={`LEVEL 1 · LESSON ${lesson.number}`}
         title={lesson.title}
         subtitle={lesson.subtitle}
       />
+      {lesson.id === "variables" && (
+        <p className="lesson-meta">
+          Absolute beginner · {lesson.time} · Prerequisite:{" "}
+          <Link to="/lesson/a">Lesson 1 — Python and print()</Link>
+        </p>
+      )}
       <div className="lesson-layout">
         <aside className="lesson-outline">
           <span className="eyebrow">IN THIS LESSON</span>
-          {sections.map((s, i) => (
-            <NavLink key={s.id} to={`/lesson/${s.id}`}>
+          {outline.map((s, i) => (
+            <NavLink key={s.id} to={lessonPath(lesson, s.id)}>
               <span>{String.fromCharCode(65 + i)}</span>
               {s.title}
-              {progress.sections.includes(s.id) && <Check size={13} />}
+              {progress.sections.includes(sectionKey(lesson, s.id)) && (
+                <Check size={13} />
+              )}
             </NavLink>
           ))}
         </aside>
-        <article className="lesson-body" key={section}>
+        <article className="lesson-body" key={`${lesson.id}-${section}`}>
           {current && (
             <>
               <span className="eyebrow">
@@ -58,18 +75,47 @@ export function Lesson() {
               {current.paragraphs.map((p) => (
                 <p key={p}>{p}</p>
               ))}
-              {section === "d" && (
+              {current.breakdown && (
                 <div
                   className="syntax-breakdown"
-                  aria-label="Annotated breakdown of print Hello"
+                  aria-label={
+                    lesson.id === "first-program"
+                      ? "Annotated breakdown of print Hello"
+                      : `Annotated breakdown: ${current.title}`
+                  }
                 >
-                  {syntaxTokens.map((t, i) => (
+                  {current.breakdown.map((t, i) => (
                     <div key={i}>
                       <code>{t.token}</code>
                       <strong>{t.label}</strong>
                       <p>{t.detail}</p>
                     </div>
                   ))}
+                </div>
+              )}
+              {current.table && (
+                <div className="lesson-table">
+                  <table>
+                    <caption>{current.title}: quick reference</caption>
+                    <thead>
+                      <tr>
+                        {current.table.headers.map((h) => (
+                          <th key={h} scope="col">
+                            {h}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {current.table.rows.map((row, i) => (
+                        <tr key={i}>
+                          {row.map((cell, j) => (
+                            <td key={j}>{cell}</td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               )}
               {current.code && (
@@ -93,25 +139,70 @@ export function Lesson() {
                     <p>{current.practice}</p>
                   </div>
                   <CodeWorkspace
-                    key={current.id}
-                    id={`section-${current.id}`}
+                    key={draftKey(lesson, current.id)}
+                    id={draftKey(lesson, current.id)}
                     starter={current.code}
                   />
                 </>
               )}
+              {(current.examples ?? []).map((example) => (
+                <section className="additional-example" key={example.id}>
+                  <h3>{example.title}</h3>
+                  <p>{example.notes}</p>
+                  <div className="example">
+                    <span className="eyebrow">EXPECTED OUTPUT</span>
+                    <pre>{example.output}</pre>
+                  </div>
+                  <CodeWorkspace
+                    id={draftKey(lesson, current.id, example.id)}
+                    starter={example.code}
+                  />
+                </section>
+              ))}
+              {lesson.id === "variables" &&
+                section === "h" &&
+                lesson.debugExercises?.map((exercise, i) => (
+                  <section className="additional-example" key={exercise.id}>
+                    <span className="eyebrow">DEBUG EXAMPLE {i + 1} OF 7</span>
+                    <h3>{exercise.title}</h3>
+                    <p>{exercise.description}</p>
+                    <div className="example">
+                      <span className="eyebrow">
+                        INTENDED OUTPUT AFTER YOUR FIX
+                      </span>
+                      <pre>{exercise.expected}</pre>
+                    </div>
+                    <CodeWorkspace
+                      id={exercise.id}
+                      starter={exercise.starter}
+                      exercise={exercise}
+                    />
+                  </section>
+                ))}
               <div className="callout">
                 <span>COMMON BEGINNER MISTAKE</span>
                 <p>{current.mistakes}</p>
               </div>
+              {current.quickCheck && (
+                <KnowledgeCheck questions={[current.quickCheck]} compact />
+              )}
               <div className="lesson-next">
                 <button
                   onClick={() => {
                     update((p) => ({
                       ...p,
-                      sections: [...new Set([...p.sections, current.id])],
+                      sections: [
+                        ...new Set([
+                          ...p.sections,
+                          sectionKey(lesson, current.id),
+                        ]),
+                      ],
                     }));
                     navigate(
-                      `/lesson/${lesson.sections[index + 1]?.id ?? "quiz"}`,
+                      lessonPath(
+                        lesson,
+                        lesson.sections[index + 1]?.id ?? "quiz",
+                      ),
                     );
                   }}
                 >
@@ -123,8 +214,8 @@ export function Lesson() {
           )}
           {section === "quiz" && (
             <>
-              <KnowledgeCheck />
-              <Link to="/lesson/lab" className="button">
+              <KnowledgeCheck questions={lesson.quiz} />
+              <Link to={lessonPath(lesson, "lab")} className="button">
                 Go to the practical lab <ArrowRight size={16} />
               </Link>
             </>
@@ -141,16 +232,19 @@ export function Lesson() {
               </p>
               <p>
                 You can retry, use progressive hints and return later. Different
-                valid Python solutions are accepted when they meet the output,
-                type and call-count requirements.
+                valid implementations are accepted when they meet the output
+                {lesson.id === "variables"
+                  ? ", required names, stored types, assignment and changed-value checks"
+                  : ", type and call-count requirements"}
+                .
               </p>
-              <Link to="/lab/1" className="button">
+              <Link to={labPath(lesson)} className="button">
                 Start the ten-question lab <ArrowRight size={16} />
               </Link>
             </>
           )}
         </article>
       </div>
-    </>
+    </LessonAccess>
   );
 }
