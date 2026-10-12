@@ -1,0 +1,12 @@
+node_modules/
+dist/
+frontend/public/python/
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+.env.*
+!.env.example
+playwright-report/
+test-results/
