@@ -1,0 +1,74 @@
+[
+  {
+    "level": 1,
+    "title": "Python Foundations",
+    "topics": [
+      "Python and print()",
+      "Arithmetic operators",
+      "Variables",
+      "Data types",
+      "Type conversions",
+      "User input"
+    ]
+  },
+  {
+    "level": 2,
+    "title": "Decisions",
+    "topics": [
+      "Comparison operators",
+      "Boolean values",
+      "if, elif, else",
+      "Logical operators"
+    ]
+  },
+  {
+    "level": 3,
+    "title": "Loops",
+    "topics": [
+      "for",
+      "while",
+      "range()",
+      "break and continue"
+    ]
+  },
+  {
+    "level": 4,
+    "title": "Collections",
+    "topics": [
+      "Lists",
+      "Tuples",
+      "Sets",
+      "Dictionaries"
+    ]
+  },
+  {
+    "level": 5,
+    "title": "Functions",
+    "topics": [
+      "def",
+      "Parameters",
+      "Arguments",
+      "Return values",
+      "Scope"
+    ]
+  },
+  {
+    "level": 6,
+    "title": "Practical Python",
+    "topics": [
+      "File handling",
+      "Exceptions",
+      "Modules",
+      "Automation"
+    ]
+  },
+  {
+    "level": 7,
+    "title": "Projects",
+    "topics": [
+      "Beginner coding projects",
+      "Automation tools",
+      "Introductory cybersecurity exercises"
+    ]
+  }
+]
