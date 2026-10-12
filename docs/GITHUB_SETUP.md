@@ -1,6 +1,8 @@
 # Publish the prepared project
 
-The cloud GitHub integration returned `Resource not accessible by integration (createRepository)` when asked to create `suzenops/pyzencode`. No remote repository or pull request was created. No existing repository was overwritten. Yunomi was not modified.
+**Publication completed:** after the user created the public repository, the existing project was pushed to [suzenops/pyzencode](https://github.com/suzenops/pyzencode) and [PR #1](https://github.com/suzenops/pyzencode/pull/1) was opened into `main`. It remains unmerged. No Mac upload is needed.
+
+The instructions below record the original fallback handoff after the integration denied repository creation. Do not repeat the bootstrap pushes against the now-populated repository. To use the published app, follow the feature-branch clone command in the root README. Yunomi was not modified.
 
 The source archive is sufficient to run locally. The accompanying **PyZenCode.bundle** additionally contains Git history with:
 

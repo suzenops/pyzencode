@@ -16,9 +16,9 @@ A functional Python learning academy for absolute beginners. React + TypeScript 
 
 ## GitHub publication status
 
-The cloud GitHub integration could not create a repository (`Resource not accessible by integration`). No repository/PR was created or existing project overwritten. A source archive and Git bundle are prepared; see [exact GitHub creation and PR instructions](docs/GITHUB_SETUP.md).
+Published to [suzenops/pyzencode](https://github.com/suzenops/pyzencode). The existing implementation is on `feat/first-working-version` in [PR #1](https://github.com/suzenops/pyzencode/pull/1), targeting `main`. The PR is open for review and has not been merged. `main` contains only the independent-project bootstrap until review is complete.
 
-To run the source archive immediately, extract `PyZenCode.tar.gz`, open the resulting `pyzencode` folder and follow the frontend/backend commands below. The clone command applies **after** you publish the prepared repository.
+The application code was published without rebuilding or changing Yunomi. Existing source archives and Git bundles remain usable; [GitHub setup notes](docs/GITHUB_SETUP.md) preserve the original handoff instructions.
 
 ## Run locally
 
