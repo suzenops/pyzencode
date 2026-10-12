@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PageTitle, Stat } from "../components/Shared";
@@ -5,7 +6,8 @@ import { lessons, labPath, sectionKey } from "../content/lessons";
 import { useProgress } from "../progress/ProgressProvider";
 import { lessonComplete, lessonUnlocked, points } from "../progress/store";
 export function ProgressPage() {
-  const { progress, reset } = useProgress();
+  const { progress, reset, exportProgress, importProgress } = useProgress();
+  const [transfer, setTransfer] = useState("");
   const solved = lessons
     .flatMap((l) => l.exercises)
     .filter((e) => progress.completed.includes(e.id)).length;
@@ -107,6 +109,65 @@ export function ProgressPage() {
           sent to an AI provider. Clearing browser data or switching devices can
           remove or separate your progress.
         </p>
+        <p>
+          Completion is kept once earned, even when you review a quiz. Each site
+          address has separate browser storage. Export from the original address
+          and import here to restore or combine your progress; existing drafts
+          take precedence.
+        </p>
+        <button
+          className="secondary"
+          onClick={() => {
+            try {
+              const url = URL.createObjectURL(
+                new Blob([exportProgress()], { type: "application/json" }),
+              );
+              const anchor = document.createElement("a");
+              anchor.href = url;
+              anchor.download = "pyzencode-progress.json";
+              anchor.click();
+              setTimeout(() => URL.revokeObjectURL(url), 1000);
+              setTransfer(
+                "Progress backup downloaded. Keep it private: it includes your code drafts.",
+              );
+            } catch {
+              setTransfer(
+                "Could not export saved progress. Existing data was not changed.",
+              );
+            }
+          }}
+        >
+          Export progress
+        </button>
+        <label
+          className="button secondary"
+          style={{ margin: "12px 0", maxWidth: "100%", flexWrap: "wrap" }}
+        >
+          Import progress
+          <input
+            type="file"
+            accept="application/json,.json"
+            aria-label="Import progress backup"
+            style={{ maxWidth: "100%", width: 190 }}
+            onChange={async (event) => {
+              const file = event.target.files?.[0];
+              event.target.value = "";
+              if (!file) return;
+              try {
+                if (file.size > 5 * 1024 * 1024) throw new Error("size");
+                importProgress(await file.text());
+                setTransfer(
+                  "Backup merged. Existing drafts and earned completions are preserved; check any storage warning before closing.",
+                );
+              } catch {
+                setTransfer(
+                  "Backup could not be imported. Use a valid PyZenCode progress JSON file. Existing progress was not changed.",
+                );
+              }
+            }}
+          />
+        </label>
+        {transfer && <p role="status">{transfer}</p>}
         <button
           className="secondary"
           onClick={() => {

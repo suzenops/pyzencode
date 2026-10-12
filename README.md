@@ -4,6 +4,10 @@
 
 A functional Python learning academy for absolute beginners. React + TypeScript + Vite + Tailwind, FastAPI metadata services, and real Pyodide Python execution in a Web Worker. 
 
+## Progress recovery
+
+Earned completion is now recorded permanently rather than recalculated from quiz review answers. Existing version-1 progress is retained, with automatic legacy recovery and an untouched original backup. Use the progress page's private Export/Import controls to transfer between Vercel addresses. See [recovery instructions and session limits](docs/PROGRESS_RECOVERY.md). The app still uses browser-local storage; account/cloud synchronization is not implemented.
+
 ## Available lessons
 
 - Eight responsive areas: landing page, student dashboard, curriculum, lesson reader, playground, ten-question coding lab, Debug Lab and progress dashboard.
@@ -26,7 +30,7 @@ Prerequisites: **Node.js 22+**, npm, **Python 3.12+**. A current browser with We
 Until the implementation PR is merged, check out its feature branch:
 
 ```sh
-git clone --branch feat/lesson-2-variables https://github.com/suzenops/pyzencode.git
+git clone --branch fix/persistent-lesson-completion https://github.com/suzenops/pyzencode.git
 cd pyzencode
 ```
 

@@ -9,6 +9,9 @@ import {
 import {
   LocalProgressRepository,
   completeExercise,
+  reconcileCompletion,
+  mergeProgress,
+  parseProgress,
   emptyProgress,
   type Progress,
   type ProgressRepository,
@@ -20,6 +23,8 @@ type Context = {
   reset: () => Promise<void>;
   error: string;
   retry: () => void;
+  exportProgress: () => string;
+  importProgress: (raw: string) => void;
 };
 const ProgressContext = createContext<Context | null>(null);
 export function ProgressProvider({
@@ -59,18 +64,39 @@ export function ProgressProvider({
       active = false;
     };
   }, [attempt]);
-  const update = (fn: (p: Progress) => Progress) => {
-    const next = fn(current.current);
+  const commit = (value: Progress, importedRaw?: string) => {
+    let next = reconcileCompletion(value);
+    if (repo.current instanceof LocalProgressRepository) {
+      try {
+        next = repo.current.persist(next, importedRaw);
+        setError("");
+      } catch {
+        setError(
+          "Your changes are in memory, but could not be saved. Retry saving before closing this page. Existing stored data has not been reset.",
+        );
+      }
+    } else {
+      queue.current = queue.current
+        .then(() => repo.current!.save(next))
+        .then(() => setError(""))
+        .catch(() =>
+          setError(
+            "Changes could not be saved. Retry before closing this page.",
+          ),
+        );
+    }
     current.current = next;
     setProgress(next);
-    queue.current = queue.current
-      .then(() => repo.current!.save(next))
-      .then(() => setError(""))
-      .catch(() =>
-        setError(
-          "Your changes are in memory, but could not be saved. Retry saving before closing this page.",
-        ),
-      );
+  };
+  const update = (fn: (p: Progress) => Progress) =>
+    commit(fn(reconcileCompletion(current.current)));
+  const exportProgress = () =>
+    repo.current instanceof LocalProgressRepository
+      ? repo.current.exportMerged(current.current)
+      : JSON.stringify(current.current);
+  const importProgress = (raw: string) => {
+    const imported = parseProgress(raw);
+    commit(mergeProgress(current.current, imported), raw);
   };
   const retry = () => {
     if (!ready) setAttempt((a) => a + 1);
@@ -143,6 +169,8 @@ export function ProgressProvider({
         reset,
         error,
         retry,
+        exportProgress,
+        importProgress,
       }}
     >
       {children}
