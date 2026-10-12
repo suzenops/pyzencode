@@ -2,7 +2,7 @@
 
 **Learn. Break. Fix. Master.**
 
-A functional Python learning academy for absolute beginners. React + TypeScript + Vite + Tailwind, FastAPI metadata services, and real Pyodide Python execution in a Web Worker. Independent of Yunomi.
+A functional Python learning academy for absolute beginners. React + TypeScript + Vite + Tailwind, FastAPI metadata services, and real Pyodide Python execution in a Web Worker. 
 
 ## First release
 
@@ -17,8 +17,6 @@ A functional Python learning academy for absolute beginners. React + TypeScript 
 ## GitHub publication status
 
 Published to [suzenops/pyzencode](https://github.com/suzenops/pyzencode). The existing implementation is on `feat/first-working-version` in [PR #1](https://github.com/suzenops/pyzencode/pull/1), targeting `main`. The PR is open for review and has not been merged. `main` contains only the independent-project bootstrap until review is complete.
-
-The application code was published without rebuilding or changing Yunomi. Existing source archives and Git bundles remain usable; [GitHub setup notes](docs/GITHUB_SETUP.md) preserve the original handoff instructions.
 
 ## Run locally
 
