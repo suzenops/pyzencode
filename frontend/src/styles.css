@@ -1672,3 +1672,105 @@ small {
     transform: none;
   }
 }
+
+/* Additional lesson content uses the existing surfaces and responsive rhythm. */
+.lesson-meta {
+  margin-top: -15px;
+  margin-bottom: 28px;
+  font-size: 12px;
+}
+.lesson-meta a {
+  color: #bac8ff;
+}
+.additional-example {
+  margin: 35px 0;
+}
+.additional-example h3 {
+  margin: 12px 0;
+}
+.lesson-table {
+  overflow-x: auto;
+  margin: 27px 0;
+  border: 1px solid #33435f;
+  border-radius: 9px;
+}
+.lesson-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.lesson-table caption {
+  text-align: left;
+  padding: 14px;
+  color: #c1cee6;
+}
+.lesson-table th,
+.lesson-table td {
+  text-align: left;
+  padding: 14px;
+  border-top: 1px solid #303e57;
+  vertical-align: top;
+}
+.lesson-table th {
+  background: #182338;
+}
+.output-comparison {
+  margin-top: 17px;
+}
+.output-comparison > p {
+  font-size: 12px;
+}
+.output-comparison > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.output-comparison section {
+  padding: 13px;
+  background: #10192a;
+  border: 1px solid #52617c;
+  border-radius: 6px;
+  min-width: 0;
+}
+.output-comparison h4 {
+  font-size: 11px;
+  color: #cbd7eb;
+  margin: 0 0 9px;
+}
+.output-comparison pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  color: #dae5f7;
+  margin: 0;
+}
+.output-comparison small {
+  display: block;
+  margin-top: 10px;
+}
+.lesson-progress {
+  margin-bottom: 24px;
+}
+.lesson-progress h2 {
+  margin-top: 14px;
+}
+.lesson-locked h1 {
+  margin: 19px 0;
+}
+.lesson-locked p {
+  max-width: 700px;
+}
+@media (max-width: 720px) {
+  .output-comparison > div {
+    grid-template-columns: 1fr;
+  }
+  .topic:has(.success-text),
+  .topic:has(svg) {
+    flex-wrap: wrap;
+  }
+  .lesson-table td,
+  .lesson-table th {
+    padding: 10px;
+    font-size: 11px;
+  }
+}

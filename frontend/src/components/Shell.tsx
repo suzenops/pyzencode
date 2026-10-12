@@ -18,6 +18,8 @@ import { Lab } from "../pages/Lab";
 import { Lesson } from "../pages/Lesson";
 import { Playground } from "../pages/Playground";
 import { ProgressPage } from "../pages/ProgressPage";
+import { currentLesson } from "../progress/store";
+import { labPath, lessonPath, sectionKey } from "../content/lessons";
 import { useProgress } from "../progress/ProgressProvider";
 const nav = [
   { to: "/dashboard", label: "Overview", icon: LayoutDashboard },
@@ -31,7 +33,8 @@ const nav = [
 export function Shell() {
   const location = useLocation();
   const [open, setOpen] = useState(false);
-  const { error, retry } = useProgress();
+  const { error, retry, progress } = useProgress();
+  const activeLesson = currentLesson(progress);
   useEffect(() => {
     setOpen(false);
     window.scrollTo(0, 0);
@@ -52,21 +55,44 @@ export function Shell() {
         </button>
         <div className="sidebar-label">WORKSPACE</div>
         <nav aria-label="Main navigation">
-          {nav.map((n) => (
-            <NavLink
-              key={n.to}
-              to={n.to}
-              className={({ isActive }) =>
-                isActive ||
-                location.pathname.startsWith(n.to.replace(/\/(a|1)$/, ""))
-                  ? "active"
-                  : ""
-              }
-            >
-              <n.icon size={18} />
-              {n.label}
-            </NavLink>
-          ))}
+          {nav.map((item) => {
+            const n = {
+              ...item,
+              to:
+                item.label === "Lesson reader"
+                  ? lessonPath(
+                      activeLesson,
+                      activeLesson.sections.find(
+                        (s) =>
+                          !progress.sections.includes(
+                            sectionKey(activeLesson, s.id),
+                          ),
+                      )?.id ?? "a",
+                    )
+                  : item.label === "Coding lab"
+                    ? labPath(activeLesson)
+                    : item.to,
+            };
+            return (
+              <NavLink
+                key={n.to}
+                to={n.to}
+                className={({ isActive }) =>
+                  isActive ||
+                  (item.label === "Lesson reader"
+                    ? /^\/lessons?\//.test(location.pathname)
+                    : item.label === "Coding lab"
+                      ? /^\/labs?\//.test(location.pathname)
+                      : location.pathname.startsWith(item.to))
+                    ? "active"
+                    : ""
+                }
+              >
+                <n.icon size={18} />
+                {n.label}
+              </NavLink>
+            );
+          })}
         </nav>
         <div className="sidebar-bottom">
           <div className="mini-logo">01</div>
@@ -119,6 +145,8 @@ export function Shell() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="curriculum" element={<Curriculum />} />
             <Route path="lesson/:section?" element={<Lesson />} />
+            <Route path="lessons/:lessonId/:section?" element={<Lesson />} />
+            <Route path="labs/:lessonId/:number" element={<Lab />} />
             <Route path="playground" element={<Playground />} />
             <Route path="lab/:number" element={<Lab />} />
             <Route path="debug/:number" element={<Lab debug />} />

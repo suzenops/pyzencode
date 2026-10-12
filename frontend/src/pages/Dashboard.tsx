@@ -2,21 +2,24 @@ import { ArrowRight, BookOpen, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PageTitle, Stat } from "../components/Shared";
 import { curriculum } from "../content/curriculum";
-import { exercises } from "../content/exercises";
-import { lesson, quiz } from "../content/lesson";
+import { lessons, sectionKey } from "../content/lessons";
 import { useProgress } from "../progress/ProgressProvider";
-import { lessonComplete, points } from "../progress/store";
+import {
+  lessonComplete,
+  points,
+  currentLesson,
+  continueLearning,
+} from "../progress/store";
 export function Dashboard() {
   const { progress } = useProgress();
-  const solved = exercises.filter((e) =>
+  const lesson = currentLesson(progress);
+  const solved = lesson.exercises.filter((e) =>
     progress.completed.includes(e.id),
   ).length;
-  const next = lesson.sections.find((s) => !progress.sections.includes(s.id));
-  const continueTo = next
-    ? `/lesson/${next.id}`
-    : quiz.some((q) => progress.answers[q.id] !== q.correct)
-      ? "/lesson/quiz"
-      : `/lab/${Math.max(1, exercises.findIndex((e) => !progress.completed.includes(e.id)) + 1)}`;
+  const continueTo = continueLearning(progress);
+  const read = lesson.sections.filter((s) =>
+    progress.sections.includes(sectionKey(lesson, s.id)),
+  ).length;
   return (
     <>
       <PageTitle
@@ -28,7 +31,7 @@ export function Dashboard() {
         <Stat label="Current level" value="01" detail="Python Foundations" />
         <Stat
           label="Completed lessons"
-          value={lessonComplete(progress) ? "1 / 1" : "0 / 1"}
+          value={`${lessons.filter((l) => lessonComplete(progress, l.id)).length} / 2`}
           detail="Available in this release"
         />
         <Stat
@@ -44,22 +47,21 @@ export function Dashboard() {
       </div>
       <div className="dashboard-grid">
         <section className="continue-card">
-          <div className="eyebrow">CONTINUE YOUR JOURNEY</div>
-          <h2>
-            Your First
-            <br />
-            Python Program
-          </h2>
-          <p>
-            Understand what Python is doing—before moving on to what it can do.
-          </p>
+          <div className="eyebrow">
+            CONTINUE YOUR JOURNEY · LESSON {lesson.number}
+          </div>
+          <h2>{lesson.title}</h2>
+          <p>{lesson.subtitle}</p>
           <div className="progress-track">
             <span style={{ width: `${solved * 10}%` }} />
           </div>
           <div className="card-bottom">
-            <span>{progress.sections.length} / 8 reading sections marked</span>
+            <span>{read} / 8 reading sections marked</span>
             <Link to={continueTo} className="button">
-              Continue learning <ArrowRight size={16} />
+              {lessonComplete(progress, lesson.id)
+                ? "Review progress"
+                : "Continue learning"}{" "}
+              <ArrowRight size={16} />
             </Link>
           </div>
         </section>
@@ -93,9 +95,9 @@ export function Dashboard() {
         </Link>
       </div>
       <div className="upcoming-grid">
-        {curriculum[0].topics.slice(1, 4).map((t, i) => (
+        {curriculum[0].topics.slice(2, 5).map((t) => (
           <div className="panel upcoming" key={t}>
-            <span>LESSON 0{i + 2}</span>
+            <span>UPCOMING TOPIC</span>
             <h3>{t}</h3>
             <span className="pill muted">Coming soon</span>
           </div>

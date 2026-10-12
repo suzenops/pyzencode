@@ -1,4 +1,6 @@
-# Rendered review and validation
+# First-release rendered review and validation
+
+These are historical checks and screenshots for Lesson 1. See [Lesson 2 validation and previews](LESSON_2.md) for the current feature branch.
 
 This is an implemented web application, not a mockup. The screenshots below were captured from the real running app in Chromium. The playground screenshot includes actual Pyodide output from clicking Run Code; other screenshots use a fresh browser profile with no invented student accomplishments.
 

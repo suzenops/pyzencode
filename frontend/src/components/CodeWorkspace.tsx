@@ -13,10 +13,15 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import type { Exercise } from "../content/types";
 import { explainError } from "../execution/errors";
-import { grade } from "../execution/grading";
+import {
+  grade,
+  gradingOptions,
+  type GradeFeedback,
+} from "../execution/grading";
 import { createBrowserRunner } from "../execution/runner";
 import type { ExecutionResult, RuntimeStatus } from "../execution/types";
 import { useProgress } from "../progress/ProgressProvider";
+import { OutputComparison } from "./OutputComparison";
 export function CodeWorkspace({
   id,
   starter = 'print("Hello, World!")',
@@ -30,10 +35,7 @@ export function CodeWorkspace({
   const code = progress.drafts[id] ?? starter;
   const [result, setResult] = useState<ExecutionResult>();
   const [status, setStatus] = useState<RuntimeStatus>("idle");
-  const [feedback, setFeedback] = useState<{
-    passed: boolean;
-    message: string;
-  }>();
+  const [feedback, setFeedback] = useState<GradeFeedback>();
   const [hints, setHints] = useState(0);
   const runner = useMemo(() => createBrowserRunner(), []);
   const extensions = useMemo(
@@ -56,7 +58,11 @@ export function CodeWorkspace({
   const run = async (check = false) => {
     setFeedback(undefined);
     setResult(undefined);
-    const execution = await runner.run(code, setStatus);
+    const execution = await runner.run(
+      code,
+      setStatus,
+      check && exercise ? gradingOptions(exercise) : undefined,
+    );
     setResult(execution);
     if (check && exercise) {
       const checked = grade(exercise, execution);
@@ -191,6 +197,9 @@ export function CodeWorkspace({
         >
           <strong>{feedback.passed ? "Solved" : "Keep investigating"}</strong>
           <p>{feedback.message}</p>
+          {feedback.difference && (
+            <OutputComparison difference={feedback.difference} />
+          )}
           {feedback.passed && <p>{exercise?.explanation}</p>}
         </div>
       )}

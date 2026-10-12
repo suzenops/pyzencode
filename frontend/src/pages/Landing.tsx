@@ -101,7 +101,8 @@ export function Landing() {
               Build from there.
             </h2>
             <p>
-              Seven levels planned. Your first complete lesson is ready now.
+              Seven levels planned. Two complete lessons to build your
+              foundation.
             </p>
             <Link className="text-button" to="/curriculum">
               Explore your learning path <ArrowRight size={16} />

@@ -13,3 +13,8 @@ def test_no_server_code_execution():
 def test_future_features_honest():
     assert client.get("/api/v1/features").json()["server_execution"] is False
     assert client.post("/api/v1/tutor").status_code == 501
+
+def test_variables_metadata_and_prerequisite():
+    data=client.get("/api/v1/curriculum").json()
+    assert data["available_lessons"][1]["id"]=="variables"
+    assert data["available_lessons"][1]["prerequisite"]=="first-program"

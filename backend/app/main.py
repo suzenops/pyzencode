@@ -6,13 +6,15 @@ from fastapi.responses import JSONResponse
 app = FastAPI(title="PyZenCode services", version="0.1.0")
 CURRICULUM = json.loads((Path(__file__).resolve().parents[2] / "shared/curriculum.json").read_text())
 
+LESSONS = json.loads((Path(__file__).resolve().parents[2] / "shared/lessons.json").read_text())
+
 @app.get("/api/health")
 def health():
     return {"status": "ok", "version": "0.1.0", "execution": "browser-worker"}
 
 @app.get("/api/v1/curriculum")
 def curriculum():
-    return {"levels": CURRICULUM, "available_lesson": {"id": "first-program", "title": "Your First Python Program", "level": 1}, "future_lessons": "coming-soon"}
+    return {"levels": CURRICULUM, "available_lesson": {"id": "first-program", "title": "Your First Python Program", "level": 1}, "available_lessons": LESSONS, "future_lessons": "coming-soon"}
 
 @app.get("/api/v1/features")
 def features():
