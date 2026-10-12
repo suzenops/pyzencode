@@ -20,6 +20,12 @@ export function LessonAccess({
         Finish its eight reading sections, five-question knowledge check and ten
         checked lab exercises. Your existing progress and drafts are preserved.
       </p>
+      <p>
+        Already completed this lesson on another site address? Your progress is
+        stored separately there.{" "}
+        <Link to="/progress">Restore a progress backup</Link> without repeating
+        passed exercises.
+      </p>
       <Link className="button" to={continueLearning(progress)}>
         Continue Lesson 1
       </Link>
