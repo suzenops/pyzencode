@@ -31,12 +31,12 @@ export function Dashboard() {
         <Stat label="Current level" value="01" detail="Python Foundations" />
         <Stat
           label="Completed lessons"
-          value={`${lessons.filter((l) => lessonComplete(progress, l.id)).length} / 2`}
+          value={`${lessons.filter((l) => lessonComplete(progress, l.id)).length} / ${lessons.length}`}
           detail="Available in this release"
         />
         <Stat
           label="Lab progress"
-          value={`${solved} / 10`}
+          value={`${solved} / ${lesson.exercises.length}`}
           detail="Working solutions saved"
         />
         <Stat
@@ -56,7 +56,9 @@ export function Dashboard() {
             <span style={{ width: `${solved * 10}%` }} />
           </div>
           <div className="card-bottom">
-            <span>{read} / 8 reading sections marked</span>
+            <span>
+              {read} / {lesson.sections.length} reading sections marked
+            </span>
             <Link to={continueTo} className="button">
               {lessonComplete(progress, lesson.id)
                 ? "Review progress"
@@ -95,7 +97,7 @@ export function Dashboard() {
         </Link>
       </div>
       <div className="upcoming-grid">
-        {curriculum[0].topics.slice(2, 5).map((t) => (
+        {curriculum[2].topics.slice(0, 3).map((t) => (
           <div className="panel upcoming" key={t}>
             <span>UPCOMING TOPIC</span>
             <h3>{t}</h3>

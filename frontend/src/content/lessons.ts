@@ -2,6 +2,8 @@ import { lesson, quiz, syntaxTokens } from "./lesson";
 import { exercises, debugExercises } from "./exercises";
 import { variablesLesson } from "./variables";
 import type { LessonContent } from "./types";
+import phase2Content from "../../../shared/phase2-content.json" with { type: "json" };
+export const phase2Lessons = phase2Content as LessonContent[];
 export const firstLesson: LessonContent = {
   ...lesson,
   number: 1,
@@ -14,7 +16,11 @@ export const firstLesson: LessonContent = {
     breakdown: s.id === "d" ? syntaxTokens : undefined,
   })),
 };
-export const lessons: LessonContent[] = [firstLesson, variablesLesson];
+export const lessons: LessonContent[] = [
+  firstLesson,
+  variablesLesson,
+  ...phase2Lessons,
+];
 export function getLesson(id = "first-program") {
   return lessons.find((l) => l.id === id);
 }

@@ -206,7 +206,7 @@ describe("preserved progress and lesson unlocking", () => {
       ...Object.fromEntries(variablesLesson.quiz.map((q) => [q.id, q.correct])),
     };
     expect(lessonComplete(p, "variables")).toBe(true);
-    expect(continueLearning(p)).toBe("/progress");
+    expect(continueLearning(p)).toBe("/lessons/values/a");
   });
 });
 describe("reusable precise output feedback", () => {

@@ -1,0 +1,38 @@
+[
+  {
+    "number": 1,
+    "title": "Introduction to Python",
+    "lessonIds": [
+      "first-program"
+    ]
+  },
+  {
+    "number": 2,
+    "title": "Variables and Data Types",
+    "lessonIds": [
+      "variables",
+      "values"
+    ]
+  },
+  {
+    "number": 3,
+    "title": "Python Operators",
+    "lessonIds": [
+      "operators"
+    ]
+  },
+  {
+    "number": 4,
+    "title": "Strings",
+    "lessonIds": [
+      "strings"
+    ]
+  },
+  {
+    "number": 5,
+    "title": "Conditional Statements",
+    "lessonIds": [
+      "conditionals"
+    ]
+  }
+]

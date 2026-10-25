@@ -62,10 +62,11 @@ class ObserveAssignments(ast.NodeTransformer):
 def _snapshot(value):
     return {"type":type(value).__name__,"value":str(value)[:512]}
 
-def execute_student(source, observed=(), overrides=None):
+def execute_student(source, observed=(), overrides=None, inputs=()):
     overrides = overrides or {}
     out, err = BoundedText(), BoundedText()
     calls, assignments, type_calls, error = [], {}, [], None
+    input_lines = iter(inputs[:100])
     def observed_print(*args,**kwargs):
         if len(calls)>=1000:
             raise OutputLimitError("Too many print calls. Try a smaller program.")
@@ -76,8 +77,13 @@ def execute_student(source, observed=(), overrides=None):
         if function is builtins.type and len(args)==1 and len(type_calls)<1000:
             type_calls.append(_snapshot(args[0]))
         return result
-    def no_input(*args):
-        raise RuntimeError("Interactive input is not supported. Use a value directly in your code.")
+    def prepared_input(prompt=""):
+        if prompt:
+            observed_print(prompt, end="")
+        try:
+            return str(next(input_lines))[:8192]
+        except StopIteration:
+            raise EOFError("No prepared input remains. Add one line per input() call before running.") from None
     def record_expression(name,value):
         value=overrides.get(name,value)
         history=assignments.setdefault(name,[])
@@ -90,7 +96,7 @@ def execute_student(source, observed=(), overrides=None):
             history=assignments.setdefault(name,[])
             if len(history)<32:
                 history.append(_snapshot(local_scope[name]))
-    scope={"__name__":"__main__","__builtins__":dict(vars(builtins),print=observed_print,input=no_input),"_pyz_record_assignment":record,"_pyz_record_expression":record_expression,"_pyz_observe_call":observe_call}
+    scope={"__name__":"__main__","__builtins__":dict(vars(builtins),print=observed_print,input=prepared_input),"_pyz_record_assignment":record,"_pyz_record_expression":record_expression,"_pyz_observe_call":observe_call}
     try:
         with contextlib.redirect_stdout(out),contextlib.redirect_stderr(err):
             tree=ast.parse(source,filename="student.py",mode="exec")
@@ -113,8 +119,9 @@ def execute_student(source, observed=(), overrides=None):
 
 def execute_request(source,options):
     observed=options.get('observe',[])
-    baseline=execute_student(source,observed)
+    inputs=options.get('inputs',[])[:100]
+    baseline=execute_student(source,observed,inputs=inputs)
     if not baseline.get('error') and options.get('cases'):
-        baseline['caseResults']=[{"name":case['name'],"result":execute_student(source,observed,case['overrides'])}
+        baseline['caseResults']=[{"name":case['name'],"result":execute_student(source,observed,case['overrides'],inputs)}
                                  for case in options['cases'][:8]]
     return json.dumps(baseline)

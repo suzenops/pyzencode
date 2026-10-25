@@ -25,21 +25,21 @@ export function ProgressPage() {
         <Stat
           label="Lab points"
           value={points(progress)}
-          detail="100 per lesson · 200 total"
+          detail={`${lessons.reduce((sum, l) => sum + l.exercises.length, 0) * 10} available lab points`}
         />
         <Stat
           label="Exercises solved"
-          value={`${solved} / 20`}
+          value={`${solved} / ${lessons.reduce((sum, l) => sum + l.exercises.length, 0)}`}
           detail="Checked working solutions"
         />
         <Stat
           label="Knowledge check"
-          value={`${correct} / 10`}
+          value={`${correct} / ${lessons.reduce((sum, l) => sum + l.quiz.length, 0)}`}
           detail="Correct final-check answers"
         />
         <Stat
           label="Lesson completion"
-          value={`${lessons.filter((l) => lessonComplete(progress, l.id)).length} / 2`}
+          value={`${lessons.filter((l) => lessonComplete(progress, l.id)).length} / ${lessons.length}`}
           detail="Read sections, pass each quiz and lab"
         />
       </div>
@@ -66,13 +66,16 @@ export function ProgressPage() {
             </span>
             <h2>{lesson.title}</h2>
             <p>
-              {read} of 8 reading sections marked · {lab} lab tasks solved ·{" "}
-              {answers} knowledge answers correct ·{" "}
-              {points(progress, lesson.id)} / 100 points
+              {read} of {lesson.sections.length} reading sections marked · {lab}{" "}
+              lab tasks solved · {answers} knowledge answers correct ·{" "}
+              {points(progress, lesson.id)} / {lesson.exercises.length * 10}{" "}
+              points
             </p>
             <div className="progress-track">
               <span
-                style={{ width: `${((read + lab + answers) / 23) * 100}%` }}
+                style={{
+                  width: `${((read + lab + answers) / (lesson.sections.length + lesson.exercises.length + lesson.quiz.length)) * 100}%`,
+                }}
               />
             </div>
             {unlocked ? (
@@ -96,7 +99,11 @@ export function ProgressPage() {
                 ))}
               </div>
             ) : (
-              <p>Complete Lesson 1 to unlock these exercises.</p>
+              <p>
+                Complete{" "}
+                {lessons.find((l) => l.id === lesson.prerequisite)?.title} to
+                unlock these exercises.
+              </p>
             )}
           </section>
         );

@@ -7,6 +7,7 @@ app = FastAPI(title="PyZenCode services", version="0.1.0")
 CURRICULUM = json.loads((Path(__file__).resolve().parents[2] / "shared/curriculum.json").read_text())
 
 LESSONS = json.loads((Path(__file__).resolve().parents[2] / "shared/lessons.json").read_text())
+MODULES = json.loads((Path(__file__).resolve().parents[2] / "shared/modules.json").read_text())
 
 @app.get("/api/health")
 def health():
@@ -14,7 +15,7 @@ def health():
 
 @app.get("/api/v1/curriculum")
 def curriculum():
-    return {"levels": CURRICULUM, "available_lesson": {"id": "first-program", "title": "Your First Python Program", "level": 1}, "available_lessons": LESSONS, "future_lessons": "coming-soon"}
+    return {"levels": CURRICULUM, "available_lesson": {"id": "first-program", "title": "Your First Python Program", "level": 1}, "available_lessons": LESSONS, "modules": MODULES, "completion_policy": "read-all-sections-pass-all-quiz-and-lab", "future_lessons": "coming-soon"}
 
 @app.get("/api/v1/features")
 def features():

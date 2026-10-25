@@ -10,7 +10,7 @@ import {
   Square,
   Terminal,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import type { Exercise } from "../content/types";
 import { explainError } from "../execution/errors";
 import {
@@ -37,6 +37,10 @@ export function CodeWorkspace({
   const [status, setStatus] = useState<RuntimeStatus>("idle");
   const [feedback, setFeedback] = useState<GradeFeedback>();
   const [hints, setHints] = useState(0);
+  const [inputText, setInputText] = useState(
+    (exercise?.inputs ?? []).join("\n"),
+  );
+  const inputId = useId();
   const runner = useMemo(() => createBrowserRunner(), []);
   const extensions = useMemo(
     () => [
@@ -61,7 +65,9 @@ export function CodeWorkspace({
     const execution = await runner.run(
       code,
       setStatus,
-      check && exercise ? gradingOptions(exercise) : undefined,
+      check && exercise
+        ? gradingOptions(exercise)
+        : { inputs: inputText ? inputText.split("\n") : [] },
     );
     setResult(execution);
     if (check && exercise) {
@@ -92,6 +98,22 @@ export function CodeWorkspace({
           highlightActiveLine: true,
         }}
       />
+      <details className="prepared-input">
+        <summary>Prepared input for input()</summary>
+        <label htmlFor={inputId}>One input value per line</label>
+        <textarea
+          id={inputId}
+          value={inputText}
+          maxLength={8192}
+          disabled={status !== "idle"}
+          onChange={(event) => setInputText(event.target.value)}
+          rows={3}
+        />
+        <p className="muted">
+          Run Code reads these lines in order. Check Answer uses the exercise’s
+          fixed test input. Input is not saved.
+        </p>
+      </details>
       <div className="editor-actions">
         <button onClick={() => void run()} disabled={status !== "idle"}>
           <Play size={15} />

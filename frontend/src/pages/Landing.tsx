@@ -101,8 +101,8 @@ export function Landing() {
               Build from there.
             </h2>
             <p>
-              Seven levels planned. Two complete lessons to build your
-              foundation.
+              Learn Python foundations, operators, strings and decisions. Later
+              topics remain clearly marked as planned.
             </p>
             <Link className="text-button" to="/curriculum">
               Explore your learning path <ArrowRight size={16} />

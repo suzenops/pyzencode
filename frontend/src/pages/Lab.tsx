@@ -37,7 +37,7 @@ export function Lab({ debug = false }: { debug?: boolean }) {
             ? "Run the broken code. Read the error. Make one careful change."
             : lesson.id === "variables"
               ? "Ten exercises to store, update and use information with confidence."
-              : "Ten exercises to make your first Python concepts your own."
+              : "Ten exercises to practice, debug and assess your understanding."
         }
       />
       <div className="lab-nav">
@@ -61,6 +61,8 @@ export function Lab({ debug = false }: { debug?: boolean }) {
           <div className="exercise-heading">
             <span className="eyebrow">
               {debug ? "CHALLENGE" : "QUESTION"} {index + 1} OF {list.length}
+              {exercise.difficulty && ` · ${exercise.difficulty}`}
+              {exercise.assessment && " · FINAL ASSESSMENT"}
             </span>
             <h2>{exercise.title}</h2>
             <p>{exercise.description}</p>
@@ -113,8 +115,11 @@ export function Lab({ debug = false }: { debug?: boolean }) {
                 : "Each lab question awards 10 points once. Repeated checks never add duplicate points."}
             </p>
           </div>
-          <Link to={lessonPath(lesson, "h")} className="quiet-link">
-            How to read Python errors <ArrowRight size={14} />
+          <Link
+            to={lessonPath(lesson, lesson.sections.at(-1)!.id)}
+            className="quiet-link"
+          >
+            Review the lesson and debugging tips <ArrowRight size={14} />
           </Link>
         </aside>
       </div>

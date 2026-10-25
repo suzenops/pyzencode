@@ -36,9 +36,9 @@ export function Playground() {
               Runs stop after 3 seconds. Output is limited to 8,192 characters.
             </p>
             <p>
-              Interactive input and installing extra packages are not supported
-              in this version. Avoid entering passwords or private information
-              into code.
+              Prepare input lines before running input(). Installing extra
+              packages is not supported in this version. Avoid entering
+              passwords or private information into code.
             </p>
           </div>
           <div className="panel">

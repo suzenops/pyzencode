@@ -12,5 +12,33 @@
     "level": 1,
     "number": 2,
     "prerequisite": "first-program"
+  },
+  {
+    "id": "values",
+    "title": "Conversions, Booleans and Input",
+    "level": 1,
+    "number": 3,
+    "prerequisite": "variables"
+  },
+  {
+    "id": "operators",
+    "title": "Python Operators",
+    "level": 1,
+    "number": 4,
+    "prerequisite": "values"
+  },
+  {
+    "id": "strings",
+    "title": "Strings",
+    "level": 1,
+    "number": 5,
+    "prerequisite": "operators"
+  },
+  {
+    "id": "conditionals",
+    "title": "Conditional Statements",
+    "level": 1,
+    "number": 6,
+    "prerequisite": "strings"
   }
 ]
