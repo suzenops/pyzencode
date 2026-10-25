@@ -18,8 +18,12 @@ export type ExecutionResult = {
 };
 export type VariableSnapshot = { type: string; value: string };
 export type RunOptions = {
+  inputs?: string[];
   observe?: string[];
-  cases?: { name: string; overrides: Record<string, string | number> }[];
+  cases?: {
+    name: string;
+    overrides: Record<string, string | number | boolean>;
+  }[];
 };
 export type RuntimeStatus = "idle" | "loading" | "running";
 export type WorkerMessage =

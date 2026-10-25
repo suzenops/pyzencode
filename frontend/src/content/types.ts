@@ -37,17 +37,20 @@ export type Exercise = {
   variables?: VariableRequirement[];
   cases?: GradingCase[];
   typeOf?: string;
+  difficulty?: "Beginner" | "Intermediate" | "Challenge";
+  assessment?: boolean;
+  inputs?: string[];
 };
 
 export type VariableRequirement = {
   name: string;
-  type: "int" | "float" | "str";
+  type: "int" | "float" | "str" | "bool";
   value: string;
   history?: string[];
 };
 export type GradingCase = {
   name: string;
-  overrides: Record<string, string | number>;
+  overrides: Record<string, string | number | boolean>;
   expected: string;
 };
 export type LessonContent = {

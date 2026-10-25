@@ -1,0 +1,3078 @@
+[
+  {
+    "id": "values",
+    "number": 3,
+    "level": 1,
+    "title": "Conversions, Booleans and Input",
+    "subtitle": "Five guided reading lessons, a ten-question quiz, and a ten-task practical assessment.",
+    "time": "45–60 minutes, excluding the lab",
+    "prerequisite": "variables",
+    "sections": [
+      {
+        "id": "a",
+        "title": "Boolean values and meaningful names",
+        "intro": "Objective: store a yes/no fact and inspect its type.",
+        "paragraphs": [
+          "A bool represents one of two values: True or False. Capital letters matter. Use these values for facts such as whether a ticket is paid.",
+          "Choose a name that explains the fact: is_ready is clearer than x. Python names are case-sensitive, cannot contain spaces, and cannot start with a digit.",
+          "Use int for whole counts, float for measurements, str for text and bool for yes/no facts. A value’s type determines which operations make sense."
+        ],
+        "code": "is_ready = True\nprint(is_ready)\nprint(type(is_ready))",
+        "output": "True\n<class 'bool'>",
+        "breakdown": [
+          {
+            "token": "is_ready = True",
+            "label": "Line 1",
+            "detail": "Bind a descriptive name to the Boolean literal True."
+          },
+          {
+            "token": "print(is_ready)",
+            "label": "Line 2",
+            "detail": "Look up and display the Boolean value."
+          },
+          {
+            "token": "print(type(is_ready))",
+            "label": "Line 3",
+            "detail": "Inspect its type, then display the returned class."
+          }
+        ],
+        "mistakes": "\"False\" is text and is truthy because it is nonempty; False is a Boolean.",
+        "practice": "Change the fact to False and predict both output lines."
+      },
+      {
+        "id": "b",
+        "title": "Convert text into useful numbers",
+        "intro": "Objective: convert text with int(), float() and str().",
+        "paragraphs": [
+          "Text from a form looks like digits but cannot be added to a number directly. int(\"12\") creates the integer 12; float(\"12.5\") creates a decimal value.",
+          "Conversion creates a new value. The original text remains text unless you assign the converted result back to the same name.",
+          "int(\"12.5\") raises ValueError because a decimal string is not an integer spelling. int(12.9) instead truncates a numeric float toward zero; it does not round."
+        ],
+        "code": "count_text = \"12\"\ncount = int(count_text)\nprint(count + 1)",
+        "output": "13",
+        "breakdown": [
+          {
+            "token": "count_text = \"12\"",
+            "label": "Line 1",
+            "detail": "Store digit characters as text."
+          },
+          {
+            "token": "count = int(count_text)",
+            "label": "Line 2",
+            "detail": "Convert the digit text to a whole number."
+          },
+          {
+            "token": "print(count + 1)",
+            "label": "Line 3",
+            "detail": "Add one numerically before displaying the result."
+          }
+        ],
+        "mistakes": "Do not expect int() to round a decimal or accept every string. Read ValueError before changing your code.",
+        "practice": "Try float(\"12.5\") and compare adding 1 with concatenating \"1\"."
+      },
+      {
+        "id": "c",
+        "title": "Read prepared input safely",
+        "intro": "Objective: use input() and understand its string result.",
+        "paragraphs": [
+          "In terminal Python, input() waits for one line typed by the user. It returns text even when that line contains digits.",
+          "In this browser, enter lines in Prepared input before running. Each input() consumes one line. The worker never opens a blocking dialog; running out of lines raises a clear error.",
+          "Use fictional practice values. The input stays in this browser worker and is not sent to FastAPI. Convert numeric text before arithmetic; malformed input can still raise ValueError."
+        ],
+        "code": "name = input()\nprint(\"Hello\", name)",
+        "output": "Hello Ada",
+        "breakdown": [
+          {
+            "token": "name = input()",
+            "label": "Line 1",
+            "detail": "Read the first prepared line into name."
+          },
+          {
+            "token": "print(\"Hello\", name)",
+            "label": "Line 2",
+            "detail": "Display the greeting and the entered name with a separating space."
+          }
+        ],
+        "mistakes": "Writing input without () refers to the function instead of reading a line.",
+        "practice": "Enter Ada in Prepared input, run, then try another fictional name."
+      },
+      {
+        "id": "d",
+        "title": "Follow values through an update",
+        "intro": "Objective: trace assignments without losing the original meaning.",
+        "paragraphs": [
+          "Assignment evaluates the right side first, then binds the name on the left. After balance = balance + 5, future lookups see the new balance.",
+          "Keep units in names: price_dollars and quantity explain a calculation better than a and b. A receipt total is numeric data; a label is text.",
+          "When debugging, inspect type(value) as well as print(value). The displays of 12 and \"12\" look alike but their types differ."
+        ],
+        "code": "balance = 10\nbalance = balance + 5\nprint(\"Balance:\", balance)",
+        "output": "Balance: 15",
+        "breakdown": [
+          {
+            "token": "balance = 10",
+            "label": "Line 1",
+            "detail": "Start with ten units."
+          },
+          {
+            "token": "balance = balance + 5",
+            "label": "Line 2",
+            "detail": "Read the old balance, add five, and assign the result back."
+          },
+          {
+            "token": "print(\"Balance:\", balance)",
+            "label": "Line 3",
+            "detail": "Display a label and the updated numeric value."
+          }
+        ],
+        "mistakes": "An assignment replaces the binding; it does not remember every past value for you.",
+        "practice": "Change the deposit to 8 and trace the right side before running."
+      },
+      {
+        "id": "e",
+        "title": "Practical application: a small receipt",
+        "intro": "Objective: turn prepared text into a labeled calculation.",
+        "paragraphs": [
+          "A receipt combines several concepts: read a quantity, convert it, multiply by a unit price, and display a meaningful total.",
+          "Keep input, calculation and presentation on separate lines. This makes it easier to locate a conversion error or an incorrect formula.",
+          "Final assessment: finish the ten-question quiz and all ten lab tasks. Task ten combines stored data and conversion. Passing requires changed-data checks, not just matching one fixed output."
+        ],
+        "code": "quantity_text = \"3\"\nquantity = int(quantity_text)\nunit_price = 4\nprint(\"Total:\", quantity * unit_price)",
+        "output": "Total: 12",
+        "breakdown": [
+          {
+            "token": "quantity_text = \"3\"",
+            "label": "Line 1",
+            "detail": "Store a quantity supplied as text."
+          },
+          {
+            "token": "quantity = int(quantity_text)",
+            "label": "Line 2",
+            "detail": "Convert it to a whole count."
+          },
+          {
+            "token": "unit_price = 4",
+            "label": "Line 3",
+            "detail": "Store the price of one item."
+          },
+          {
+            "token": "print(\"Total:\", quantity * unit_price)",
+            "label": "Line 4",
+            "detail": "Multiply the two values and display the receipt total."
+          }
+        ],
+        "mistakes": "Using quantity_text * 4 repeats the text four times; convert it before calculating.",
+        "practice": "Try a quantity of 5 and explain why the total changes."
+      }
+    ],
+    "quiz": [
+      {
+        "id": "values-q1",
+        "question": "Which value is a Boolean?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "True",
+            "explanation": "True is a bool literal with a capital T."
+          },
+          {
+            "text": "\"True\"",
+            "explanation": "Quotes create a string, not a Boolean."
+          },
+          {
+            "text": "true",
+            "explanation": "Lowercase true is an ordinary name and is undefined unless assigned."
+          }
+        ]
+      },
+      {
+        "id": "values-q2",
+        "question": "What does input() return?",
+        "correct": 1,
+        "options": [
+          {
+            "text": "Nothing",
+            "explanation": "The function returns the entered line."
+          },
+          {
+            "text": "A string",
+            "explanation": "One input line is returned as text."
+          },
+          {
+            "text": "Always an integer",
+            "explanation": "Digits remain text until converted."
+          }
+        ]
+      },
+      {
+        "id": "values-q3",
+        "question": "What is int(\"12\") + 3?",
+        "correct": 2,
+        "options": [
+          {
+            "text": "123",
+            "explanation": "Concatenation would require two strings."
+          },
+          {
+            "text": "An error",
+            "explanation": "This digit string is a valid integer spelling."
+          },
+          {
+            "text": "15",
+            "explanation": "The conversion creates 12, then numeric addition adds 3."
+          }
+        ]
+      },
+      {
+        "id": "values-q4",
+        "question": "What happens with int(\"2.5\")?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "ValueError",
+            "explanation": "A decimal spelling is not an integer spelling."
+          },
+          {
+            "text": "3",
+            "explanation": "int does not round this text."
+          },
+          {
+            "text": "2",
+            "explanation": "Numeric float truncation differs from converting a decimal string."
+          }
+        ]
+      },
+      {
+        "id": "values-q5",
+        "question": "Which name follows snake_case?",
+        "correct": 1,
+        "options": [
+          {
+            "text": "item count",
+            "explanation": "A space separates tokens rather than joining a name."
+          },
+          {
+            "text": "item_count",
+            "explanation": "Lowercase words and underscores form a descriptive name."
+          },
+          {
+            "text": "2items",
+            "explanation": "A name cannot begin with a digit."
+          }
+        ]
+      },
+      {
+        "id": "values-q6",
+        "question": "What is type(False)?",
+        "correct": 2,
+        "options": [
+          {
+            "text": "<class 'str'>",
+            "explanation": "There are no quotation marks around False."
+          },
+          {
+            "text": "<class 'float'>",
+            "explanation": "A yes/no fact is not a decimal measurement."
+          },
+          {
+            "text": "<class 'bool'>",
+            "explanation": "False belongs to the Boolean type."
+          }
+        ]
+      },
+      {
+        "id": "values-q7",
+        "question": "What is float(\"3.5\") + 1?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "4.5",
+            "explanation": "Convert text first, then add numerically."
+          },
+          {
+            "text": "3.51",
+            "explanation": "That would join strings, not add numbers."
+          },
+          {
+            "text": "4",
+            "explanation": "The fractional part is retained."
+          }
+        ]
+      },
+      {
+        "id": "values-q8",
+        "question": "What is str(20)?",
+        "correct": 1,
+        "options": [
+          {
+            "text": "A Boolean",
+            "explanation": "Converting to text does not produce a yes/no value."
+          },
+          {
+            "text": "\"20\"",
+            "explanation": "str creates a text representation of the integer."
+          },
+          {
+            "text": "20 as an int",
+            "explanation": "The result has type str, not int."
+          }
+        ]
+      },
+      {
+        "id": "values-q9",
+        "question": "After n = 4 then n = n + 2, what is n?",
+        "correct": 2,
+        "options": [
+          {
+            "text": "4",
+            "explanation": "The second assignment changes the binding."
+          },
+          {
+            "text": "2",
+            "explanation": "Two is the amount added, not the final value."
+          },
+          {
+            "text": "6",
+            "explanation": "Read four, add two, then replace the binding."
+          }
+        ]
+      },
+      {
+        "id": "values-q10",
+        "question": "Why convert quantity text before multiplication?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "To calculate a numeric total",
+            "explanation": "Numeric multiplication combines quantities."
+          },
+          {
+            "text": "To repeat the text",
+            "explanation": "String multiplication already repeats text, which is wrong for a receipt."
+          },
+          {
+            "text": "To change the variable name",
+            "explanation": "Conversion changes a value’s type, not the spelling of its name."
+          }
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "id": "values-lab-1",
+        "title": "Ready to learn",
+        "description": "Assign is_ready = True, then print is_ready.",
+        "starter": "",
+        "expected": "True",
+        "variables": [
+          {
+            "name": "is_ready",
+            "type": "bool",
+            "value": "True"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "is_ready": false
+            },
+            "expected": "False"
+          }
+        ],
+        "hints": [
+          "Use the capitalized Boolean literal.",
+          "Keep the fact in is_ready.",
+          "Print the name rather than a fixed word."
+        ],
+        "explanation": "The bool value is displayed through a lookup.",
+        "difficulty": "Beginner",
+        "assessment": false
+      },
+      {
+        "id": "values-lab-2",
+        "title": "Convert a count",
+        "description": "Assign count_text = \"8\". Convert it with int(), store count, and print count.",
+        "starter": "",
+        "expected": "8",
+        "variables": [
+          {
+            "name": "count_text",
+            "type": "str",
+            "value": "8"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "value": "8"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "count_text": "11"
+            },
+            "expected": "11"
+          }
+        ],
+        "hints": [
+          "The starting value is text.",
+          "int accepts a whole-number spelling.",
+          "Store the converted result in count."
+        ],
+        "explanation": "Converting the source text makes arithmetic possible.",
+        "difficulty": "Beginner",
+        "assessment": false
+      },
+      {
+        "id": "values-lab-3",
+        "title": "Measure a distance",
+        "description": "Assign distance_text = \"2.5\". Convert it to distance using float() and print distance.",
+        "starter": "",
+        "expected": "2.5",
+        "variables": [
+          {
+            "name": "distance_text",
+            "type": "str",
+            "value": "2.5"
+          },
+          {
+            "name": "distance",
+            "type": "float",
+            "value": "2.5"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "distance_text": "4.5"
+            },
+            "expected": "4.5"
+          }
+        ],
+        "hints": [
+          "Keep the decimal point in the text.",
+          "Use float rather than int.",
+          "Print the converted distance."
+        ],
+        "explanation": "float preserves a fractional measurement.",
+        "difficulty": "Beginner",
+        "assessment": false
+      },
+      {
+        "id": "values-lab-4",
+        "title": "Make a label",
+        "description": "Assign age = 20 and age_text = str(age). Print \"Age: \" joined with age_text.",
+        "starter": "",
+        "expected": "Age: 20",
+        "variables": [
+          {
+            "name": "age",
+            "type": "int",
+            "value": "20"
+          },
+          {
+            "name": "age_text",
+            "type": "str",
+            "value": "20"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "age": 21
+            },
+            "expected": "Age: 21"
+          }
+        ],
+        "hints": [
+          "The label is a string.",
+          "Convert the number to text before concatenating.",
+          "Preserve one space after the colon."
+        ],
+        "explanation": "Explicit conversion makes both concatenation operands strings.",
+        "difficulty": "Intermediate",
+        "assessment": false
+      },
+      {
+        "id": "values-lab-5",
+        "title": "Read a name",
+        "description": "Read name with input(), then print a greeting using name. Prepared input for checking is Ada.",
+        "starter": "",
+        "expected": "Hello Ada",
+        "variables": [
+          {
+            "name": "name",
+            "type": "str",
+            "value": "Ada"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "name": "Lin"
+            },
+            "expected": "Hello Lin"
+          }
+        ],
+        "hints": [
+          "Call input with parentheses.",
+          "The provided line is already a string.",
+          "Use two print arguments for the space."
+        ],
+        "explanation": "One prepared line is consumed as text.",
+        "difficulty": "Intermediate",
+        "assessment": false,
+        "inputs": [
+          "Ada"
+        ]
+      },
+      {
+        "id": "values-lab-6",
+        "title": "Read and convert an age",
+        "description": "Read age_text with input(), convert to age with int(), then print age + 1. Prepared input is 20.",
+        "starter": "",
+        "expected": "21",
+        "variables": [
+          {
+            "name": "age_text",
+            "type": "str",
+            "value": "20"
+          },
+          {
+            "name": "age",
+            "type": "int",
+            "value": "20"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "age_text": "30"
+            },
+            "expected": "31"
+          }
+        ],
+        "hints": [
+          "input returns text.",
+          "Convert before adding one.",
+          "Print the calculation, not a fixed birthday age."
+        ],
+        "explanation": "Input text becomes a numeric age.",
+        "difficulty": "Intermediate",
+        "assessment": false,
+        "inputs": [
+          "20"
+        ]
+      },
+      {
+        "id": "values-lab-7",
+        "title": "Correct the total",
+        "description": "Fix numeric addition: keep left_text = \"12\" and right_text = \"3\"; print their integer sum.",
+        "starter": "left_text = \"12\"\nright_text = \"3\"\nprint(left_text + right_text)",
+        "expected": "15",
+        "variables": [
+          {
+            "name": "left_text",
+            "type": "str",
+            "value": "12"
+          },
+          {
+            "name": "right_text",
+            "type": "str",
+            "value": "3"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "left_text": "4",
+              "right_text": "6"
+            },
+            "expected": "10"
+          }
+        ],
+        "hints": [
+          "Text addition joins characters.",
+          "Convert both operands.",
+          "Keep the source variables as strings."
+        ],
+        "explanation": "The numeric sum differs from concatenation.",
+        "difficulty": "Intermediate",
+        "assessment": false
+      },
+      {
+        "id": "values-lab-8",
+        "title": "Daily savings",
+        "description": "Assign savings = 10 and deposit = 5. Add deposit to savings, then print savings.",
+        "starter": "",
+        "expected": "15",
+        "variables": [
+          {
+            "name": "savings",
+            "type": "int",
+            "value": "15"
+          },
+          {
+            "name": "deposit",
+            "type": "int",
+            "value": "5"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "deposit": 8
+            },
+            "expected": "18"
+          }
+        ],
+        "hints": [
+          "Evaluate the old savings on the right.",
+          "Add the deposit value.",
+          "Assign the calculated result back."
+        ],
+        "explanation": "The balance is updated from the deposit.",
+        "difficulty": "Challenge",
+        "assessment": false
+      },
+      {
+        "id": "values-lab-9",
+        "title": "Inspect a Boolean",
+        "description": "Assign has_ticket = False. Use type(has_ticket) to display its type.",
+        "starter": "",
+        "expected": "<class 'bool'>",
+        "variables": [
+          {
+            "name": "has_ticket",
+            "type": "bool",
+            "value": "False"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "has_ticket": "sample"
+            },
+            "expected": "<class 'str'>"
+          }
+        ],
+        "hints": [
+          "False is capitalized.",
+          "type receives the stored value.",
+          "Print the result of that call."
+        ],
+        "explanation": "The inspected type follows the value.",
+        "difficulty": "Challenge",
+        "assessment": false,
+        "typeOf": "has_ticket"
+      },
+      {
+        "id": "values-lab-10",
+        "title": "Assessment: receipt",
+        "description": "Assign quantity_text = \"3\" and unit_price = 4. Convert quantity_text to quantity, calculate total, then display Total: 12.",
+        "starter": "",
+        "expected": "Total: 12",
+        "variables": [
+          {
+            "name": "quantity_text",
+            "type": "str",
+            "value": "3"
+          },
+          {
+            "name": "unit_price",
+            "type": "int",
+            "value": "4"
+          },
+          {
+            "name": "quantity",
+            "type": "int",
+            "value": "3"
+          },
+          {
+            "name": "total",
+            "type": "int",
+            "value": "12"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "quantity_text": "5",
+              "unit_price": 6
+            },
+            "expected": "Total: 30"
+          }
+        ],
+        "hints": [
+          "Separate the input, calculation and display.",
+          "Convert the quantity before multiplying.",
+          "Use both variables in the calculation."
+        ],
+        "explanation": "The receipt recalculates for different quantities and prices.",
+        "difficulty": "Challenge",
+        "assessment": true
+      }
+    ]
+  },
+  {
+    "id": "operators",
+    "number": 4,
+    "level": 1,
+    "title": "Python Operators",
+    "subtitle": "Five guided reading lessons, a ten-question quiz, and a ten-task practical assessment.",
+    "time": "45–60 minutes, excluding the lab",
+    "prerequisite": "values",
+    "sections": [
+      {
+        "id": "a",
+        "title": "Arithmetic for everyday quantities",
+        "intro": "Objective: combine numeric values using +, -, *, / and //.",
+        "paragraphs": [
+          "An operator asks Python to perform an operation on values called operands. Addition combines quantities; subtraction finds a difference; multiplication scales a quantity.",
+          "True division / returns a float even when the division is exact. Floor division // rounds a quotient down, so -7 // 2 is -4 rather than -3.",
+          "For a shopping basket, multiply unit price by quantity before combining subtotals. Use small known examples to check a formula before trusting a large result."
+        ],
+        "code": "price = 6\nquantity = 3\nprint(price * quantity)\nprint(7 / 2)\nprint(7 // 2)",
+        "output": "18\n3.5\n3",
+        "breakdown": [
+          {
+            "token": "price = 6",
+            "label": "Line 1",
+            "detail": "Store the unit price."
+          },
+          {
+            "token": "quantity = 3",
+            "label": "Line 2",
+            "detail": "Store how many items are bought."
+          },
+          {
+            "token": "print(price * quantity)",
+            "label": "Line 3",
+            "detail": "Multiply two numeric values."
+          },
+          {
+            "token": "print(7 / 2)",
+            "label": "Line 4",
+            "detail": "Divide without discarding the fractional part."
+          },
+          {
+            "token": "print(7 // 2)",
+            "label": "Line 5",
+            "detail": "Take the floored quotient."
+          }
+        ],
+        "mistakes": "/ is division; // is floor division. They can return different types and values.",
+        "practice": "Change 7 to -7 and compare / with //."
+      },
+      {
+        "id": "b",
+        "title": "Remainders, powers and precedence",
+        "intro": "Objective: group calculations deliberately and use % and **.",
+        "paragraphs": [
+          "Modulus % gives the remainder associated with floor division. For positive counts, count % size tells you how many items remain after filling groups.",
+          "Exponentiation ** raises a base to a power: 2 ** 3 is eight. It is not multiplication by three. Powers happen before multiplication, which happens before addition.",
+          "Parentheses override the default order. Read 2 + 3 * 4 as 2 + (3 * 4); write (2 + 3) * 4 when the addition must happen first."
+        ],
+        "code": "items = 17\nprint(items % 5)\nprint(2 ** 3)\nprint((2 + 3) * 4)",
+        "output": "2\n8\n20",
+        "breakdown": [
+          {
+            "token": "items = 17",
+            "label": "Line 1",
+            "detail": "Store the number of items."
+          },
+          {
+            "token": "print(items % 5)",
+            "label": "Line 2",
+            "detail": "Find what remains after groups of five."
+          },
+          {
+            "token": "print(2 ** 3)",
+            "label": "Line 3",
+            "detail": "Compute two cubed."
+          },
+          {
+            "token": "print((2 + 3) * 4)",
+            "label": "Line 4",
+            "detail": "Force addition to happen before multiplication."
+          }
+        ],
+        "mistakes": "^ is a bitwise operation in Python, not the power operator. Use ** for powers.",
+        "practice": "Calculate a square with ** and check how parentheses change a sum."
+      },
+      {
+        "id": "c",
+        "title": "Compare values to get a Boolean",
+        "intro": "Objective: ask questions using ==, !=, <, <=, > and >=.",
+        "paragraphs": [
+          "A comparison produces True or False. Use == to ask whether two values are equal, and != to ask whether they differ.",
+          "The equals sign = assigns a value. It cannot replace == in an ordinary comparison expression. Inclusive comparisons <= and >= include the boundary itself.",
+          "Comparisons can be chained: 0 <= temperature <= 30 means both bounds hold. Prefer testing the exact boundary as well as a value on either side."
+        ],
+        "code": "age = 18\nprint(age >= 18)\nprint(age == 21)\nprint(age != 21)",
+        "output": "True\nFalse\nTrue",
+        "breakdown": [
+          {
+            "token": "age = 18",
+            "label": "Line 1",
+            "detail": "Store a boundary value."
+          },
+          {
+            "token": "print(age >= 18)",
+            "label": "Line 2",
+            "detail": "Check the inclusive lower limit."
+          },
+          {
+            "token": "print(age == 21)",
+            "label": "Line 3",
+            "detail": "Ask about equality without changing age."
+          },
+          {
+            "token": "print(age != 21)",
+            "label": "Line 4",
+            "detail": "Ask whether the stored age differs from twenty-one."
+          }
+        ],
+        "mistakes": "Comparing \"10\" and \"2\" compares text order, not numeric size. Convert numeric input first.",
+        "practice": "Try age 17, 18 and 19 and describe the inclusive boundary."
+      },
+      {
+        "id": "d",
+        "title": "Combine facts with logic and update values",
+        "intro": "Objective: combine Booleans with and, or, not; update using +=.",
+        "paragraphs": [
+          "and requires both conditions to be true. or accepts either condition. not reverses a truth value. Parentheses make grouped rules easier to read.",
+          "For a library loan, membership and an available copy might both be required. A staff override could use or, but write the policy in words before coding it.",
+          "Augmented assignment updates an existing value: score += 2 behaves like score = score + 2 for an integer. The name must already exist."
+        ],
+        "code": "has_card = True\nbook_available = False\nprint(has_card and book_available)\nprint(not book_available)\nscore = 5\nscore += 2\nprint(score)",
+        "output": "False\nTrue\n7",
+        "breakdown": [
+          {
+            "token": "has_card = True",
+            "label": "Line 1",
+            "detail": "Store the first fact."
+          },
+          {
+            "token": "book_available = False",
+            "label": "Line 2",
+            "detail": "Store the second fact."
+          },
+          {
+            "token": "print(has_card and book_available)",
+            "label": "Line 3",
+            "detail": "Require both facts to be true."
+          },
+          {
+            "token": "print(not book_available)",
+            "label": "Line 4",
+            "detail": "Reverse the availability fact."
+          },
+          {
+            "token": "score = 5",
+            "label": "Line 5",
+            "detail": "Start a score."
+          },
+          {
+            "token": "score += 2",
+            "label": "Line 6",
+            "detail": "Add two to the current score."
+          },
+          {
+            "token": "print(score)",
+            "label": "Line 7",
+            "detail": "Display the updated score."
+          }
+        ],
+        "mistakes": "Use and/or/not for Boolean logic; & and | are different operators.",
+        "practice": "Change book_available to True, then explain each Boolean result."
+      },
+      {
+        "id": "e",
+        "title": "Practical application: split a bill",
+        "intro": "Objective: combine operators into a tested real-world calculation.",
+        "paragraphs": [
+          "When several people share a bill, divide the total by the number of people. Confirm the divisor is not zero before using it in a real application.",
+          "Use parentheses to show which subtotal a surcharge applies to. Check units: a fraction such as 0.1 is a ten-percent rate, while 10 is ten whole units.",
+          "Final assessment: the quiz checks operator meaning and boundaries. The final lab task combines integer grouping, remainder and a labeled result. Test changed inputs to catch a formula that only works once."
+        ],
+        "code": "total = 24\npeople = 3\nshare = total / people\nprint(\"Each:\", share)",
+        "output": "Each: 8.0",
+        "breakdown": [
+          {
+            "token": "total = 24",
+            "label": "Line 1",
+            "detail": "Store the complete bill."
+          },
+          {
+            "token": "people = 3",
+            "label": "Line 2",
+            "detail": "Store the nonzero number sharing it."
+          },
+          {
+            "token": "share = total / people",
+            "label": "Line 3",
+            "detail": "Divide to calculate each share."
+          },
+          {
+            "token": "print(\"Each:\", share)",
+            "label": "Line 4",
+            "detail": "Display a label and the calculated float."
+          }
+        ],
+        "mistakes": "Division by zero raises ZeroDivisionError. Do not hide it by changing the expected answer.",
+        "practice": "Try a bill of 25 and compare the fractional share with a floored quotient."
+      }
+    ],
+    "quiz": [
+      {
+        "id": "operators-q1",
+        "question": "What is 7 / 2?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "3.5",
+            "explanation": "True division preserves a fractional result."
+          },
+          {
+            "text": "3",
+            "explanation": "That is the positive floor quotient."
+          },
+          {
+            "text": "1",
+            "explanation": "That is the remainder, not the quotient."
+          }
+        ]
+      },
+      {
+        "id": "operators-q2",
+        "question": "What is 17 % 5?",
+        "correct": 1,
+        "options": [
+          {
+            "text": "85",
+            "explanation": "That would be multiplication."
+          },
+          {
+            "text": "2",
+            "explanation": "Three groups of five leave two items."
+          },
+          {
+            "text": "3",
+            "explanation": "Three is the number of complete groups."
+          }
+        ]
+      },
+      {
+        "id": "operators-q3",
+        "question": "Which expression squares n?",
+        "correct": 2,
+        "options": [
+          {
+            "text": "n ^ 2",
+            "explanation": "^ is bitwise exclusive-or."
+          },
+          {
+            "text": "n * 2",
+            "explanation": "Multiplying by two doubles instead of squaring."
+          },
+          {
+            "text": "n ** 2",
+            "explanation": "** performs exponentiation."
+          }
+        ]
+      },
+      {
+        "id": "operators-q4",
+        "question": "What is 2 + 3 * 4?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "14",
+            "explanation": "Multiplication happens before addition."
+          },
+          {
+            "text": "20",
+            "explanation": "That requires (2 + 3) * 4."
+          },
+          {
+            "text": "24",
+            "explanation": "Neither operation gives this result in the stated order."
+          }
+        ]
+      },
+      {
+        "id": "operators-q5",
+        "question": "Which expression tests equality?",
+        "correct": 1,
+        "options": [
+          {
+            "text": "a != b",
+            "explanation": "This asks whether the values differ."
+          },
+          {
+            "text": "a == b",
+            "explanation": "Two equals signs compare values."
+          },
+          {
+            "text": "a = b",
+            "explanation": "One equals sign assigns a binding."
+          }
+        ]
+      },
+      {
+        "id": "operators-q6",
+        "question": "What is 18 >= 18?",
+        "correct": 2,
+        "options": [
+          {
+            "text": "False",
+            "explanation": ">= includes equality; > would exclude it."
+          },
+          {
+            "text": "18",
+            "explanation": "A comparison returns a Boolean, not an operand here."
+          },
+          {
+            "text": "True",
+            "explanation": "The equality boundary is included."
+          }
+        ]
+      },
+      {
+        "id": "operators-q7",
+        "question": "What is True and False?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "False",
+            "explanation": "Both operands would need to be true."
+          },
+          {
+            "text": "True",
+            "explanation": "That is the result for or in this example."
+          },
+          {
+            "text": "An error",
+            "explanation": "Both operands are valid Booleans."
+          }
+        ]
+      },
+      {
+        "id": "operators-q8",
+        "question": "What is not False?",
+        "correct": 1,
+        "options": [
+          {
+            "text": "0",
+            "explanation": "The displayed result is a Boolean."
+          },
+          {
+            "text": "True",
+            "explanation": "not reverses the truth value."
+          },
+          {
+            "text": "False",
+            "explanation": "The value is inverted."
+          }
+        ]
+      },
+      {
+        "id": "operators-q9",
+        "question": "After score = 5 and score += 2, what is score?",
+        "correct": 2,
+        "options": [
+          {
+            "text": "2",
+            "explanation": "The right side is an increment, not a replacement."
+          },
+          {
+            "text": "10",
+            "explanation": "+= performs addition, not multiplication."
+          },
+          {
+            "text": "7",
+            "explanation": "The increment is added to the current score."
+          }
+        ]
+      },
+      {
+        "id": "operators-q10",
+        "question": "What is -7 // 2?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "-4",
+            "explanation": "Floor division rounds toward negative infinity."
+          },
+          {
+            "text": "-3",
+            "explanation": "That would truncate toward zero."
+          },
+          {
+            "text": "-3.5",
+            "explanation": "That is true division."
+          }
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "id": "operators-lab-1",
+        "title": "Basket cost",
+        "description": "Assign price = 6 and quantity = 3, then print their product.",
+        "starter": "",
+        "expected": "18",
+        "variables": [
+          {
+            "name": "price",
+            "type": "int",
+            "value": "6"
+          },
+          {
+            "name": "quantity",
+            "type": "int",
+            "value": "3"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "price": 4,
+              "quantity": 5
+            },
+            "expected": "20"
+          }
+        ],
+        "hints": [
+          "Store both given integers.",
+          "Multiplication scales a unit price.",
+          "Use both names as operands."
+        ],
+        "explanation": "A basket cost follows price and quantity.",
+        "difficulty": "Beginner",
+        "assessment": false
+      },
+      {
+        "id": "operators-lab-2",
+        "title": "Time remaining",
+        "description": "Assign available = 60 and used = 25. Print the time remaining.",
+        "starter": "",
+        "expected": "35",
+        "variables": [
+          {
+            "name": "available",
+            "type": "int",
+            "value": "60"
+          },
+          {
+            "name": "used",
+            "type": "int",
+            "value": "25"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "available": 90,
+              "used": 40
+            },
+            "expected": "50"
+          }
+        ],
+        "hints": [
+          "Start from the available amount.",
+          "Subtract what was used.",
+          "Check the order of operands."
+        ],
+        "explanation": "Subtraction measures the remaining amount.",
+        "difficulty": "Beginner",
+        "assessment": false
+      },
+      {
+        "id": "operators-lab-3",
+        "title": "Share equally",
+        "description": "Assign total = 25 and people = 2. Print the true-division share.",
+        "starter": "",
+        "expected": "12.5",
+        "variables": [
+          {
+            "name": "total",
+            "type": "int",
+            "value": "25"
+          },
+          {
+            "name": "people",
+            "type": "int",
+            "value": "2"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "total": 30,
+              "people": 4
+            },
+            "expected": "7.5"
+          }
+        ],
+        "hints": [
+          "Use a nonzero divisor.",
+          "Use / to retain the fractional part.",
+          "Print the computed share."
+        ],
+        "explanation": "True division represents fractional shares.",
+        "difficulty": "Beginner",
+        "assessment": false
+      },
+      {
+        "id": "operators-lab-4",
+        "title": "Full boxes",
+        "description": "Assign items = 17 and capacity = 5. Print the number of full boxes.",
+        "starter": "",
+        "expected": "3",
+        "variables": [
+          {
+            "name": "items",
+            "type": "int",
+            "value": "17"
+          },
+          {
+            "name": "capacity",
+            "type": "int",
+            "value": "5"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "items": 23,
+              "capacity": 4
+            },
+            "expected": "5"
+          }
+        ],
+        "hints": [
+          "Only complete groups count.",
+          "For positive counts use floor division.",
+          "A partial box is excluded."
+        ],
+        "explanation": "The floored quotient counts full boxes.",
+        "difficulty": "Intermediate",
+        "assessment": false
+      },
+      {
+        "id": "operators-lab-5",
+        "title": "Leftover items",
+        "description": "Assign items = 17 and capacity = 5. Print the leftover count.",
+        "starter": "",
+        "expected": "2",
+        "variables": [
+          {
+            "name": "items",
+            "type": "int",
+            "value": "17"
+          },
+          {
+            "name": "capacity",
+            "type": "int",
+            "value": "5"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "items": 23,
+              "capacity": 4
+            },
+            "expected": "3"
+          }
+        ],
+        "hints": [
+          "The quotient counts groups.",
+          "The remainder counts what is left.",
+          "Use % with the two stored values."
+        ],
+        "explanation": "Modulus finds the ungrouped items.",
+        "difficulty": "Intermediate",
+        "assessment": false
+      },
+      {
+        "id": "operators-lab-6",
+        "title": "Square area",
+        "description": "Assign side = 4 and print its square using **.",
+        "starter": "",
+        "expected": "16",
+        "variables": [
+          {
+            "name": "side",
+            "type": "int",
+            "value": "4"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "side": 5
+            },
+            "expected": "25"
+          }
+        ],
+        "hints": [
+          "Area is side times side.",
+          "The exponent is two.",
+          "Use ** for a power."
+        ],
+        "explanation": "A square grows with the square of its side.",
+        "difficulty": "Intermediate",
+        "assessment": false
+      },
+      {
+        "id": "operators-lab-7",
+        "title": "Group before scaling",
+        "description": "Assign adults = 2, children = 3 and price = 4. Print the cost of a ticket for everyone.",
+        "starter": "",
+        "expected": "20",
+        "variables": [
+          {
+            "name": "adults",
+            "type": "int",
+            "value": "2"
+          },
+          {
+            "name": "children",
+            "type": "int",
+            "value": "3"
+          },
+          {
+            "name": "price",
+            "type": "int",
+            "value": "4"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "adults": 3,
+              "children": 1,
+              "price": 6
+            },
+            "expected": "24"
+          }
+        ],
+        "hints": [
+          "Find the total head count first.",
+          "Parentheses group the addition.",
+          "Multiply the whole group by price."
+        ],
+        "explanation": "Grouping makes the price apply to every person.",
+        "difficulty": "Intermediate",
+        "assessment": false
+      },
+      {
+        "id": "operators-lab-8",
+        "title": "Check eligibility",
+        "description": "Assign age = 18 and has_ticket = True. Print whether age >= 18 and has_ticket are both true.",
+        "starter": "",
+        "expected": "True",
+        "variables": [
+          {
+            "name": "age",
+            "type": "int",
+            "value": "18"
+          },
+          {
+            "name": "has_ticket",
+            "type": "bool",
+            "value": "True"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "age": 17,
+              "has_ticket": true
+            },
+            "expected": "False"
+          }
+        ],
+        "hints": [
+          "Include age eighteen.",
+          "Require both facts with and.",
+          "Print the Boolean expression."
+        ],
+        "explanation": "The inclusive age boundary and the ticket must both qualify.",
+        "difficulty": "Challenge",
+        "assessment": false
+      },
+      {
+        "id": "operators-lab-9",
+        "title": "Increment a score",
+        "description": "Assign score = 5 and bonus = 2. Increase score by bonus, then print score.",
+        "starter": "",
+        "expected": "7",
+        "variables": [
+          {
+            "name": "score",
+            "type": "int",
+            "value": "7"
+          },
+          {
+            "name": "bonus",
+            "type": "int",
+            "value": "2"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "bonus": 4
+            },
+            "expected": "9"
+          }
+        ],
+        "hints": [
+          "Set the initial score first.",
+          "+= adds to an existing binding.",
+          "Use the bonus rather than a fixed total."
+        ],
+        "explanation": "An increment uses the previous score.",
+        "difficulty": "Challenge",
+        "assessment": false
+      },
+      {
+        "id": "operators-lab-10",
+        "title": "Assessment: packing report",
+        "description": "Assign items = 23 and capacity = 5. Print Full boxes: 4 and Left over: 3 on separate lines, calculated from the variables.",
+        "starter": "",
+        "expected": "Full boxes: 4\nLeft over: 3",
+        "variables": [
+          {
+            "name": "items",
+            "type": "int",
+            "value": "23"
+          },
+          {
+            "name": "capacity",
+            "type": "int",
+            "value": "5"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "items": 19,
+              "capacity": 6
+            },
+            "expected": "Full boxes: 3\nLeft over: 1"
+          }
+        ],
+        "hints": [
+          "Use the quotient for full boxes.",
+          "Use the remainder for leftover items.",
+          "Check labels and order against the target."
+        ],
+        "explanation": "The quotient and remainder describe the same grouping.",
+        "difficulty": "Challenge",
+        "assessment": true
+      }
+    ]
+  },
+  {
+    "id": "strings",
+    "number": 5,
+    "level": 1,
+    "title": "Strings",
+    "subtitle": "Five guided reading lessons, a ten-question quiz, and a ten-task practical assessment.",
+    "time": "45–60 minutes, excluding the lab",
+    "prerequisite": "operators",
+    "sections": [
+      {
+        "id": "a",
+        "title": "Create and join text",
+        "intro": "Objective: distinguish text literals from variables and concatenate strings.",
+        "paragraphs": [
+          "A string is a sequence of Unicode characters. Single and double quotes both delimit a string; the delimiters are not part of the stored value.",
+          "The + operator joins strings without inserting spaces. Include the separating space yourself or pass separate arguments to print, which inserts a space by default.",
+          "Strings are immutable. An operation returns a new string; it does not edit the original string in place. Assign the result when you want to keep it."
+        ],
+        "code": "first = \"Ada\"\nlast = \"Lovelace\"\nfull = first + \" \" + last\nprint(full)",
+        "output": "Ada Lovelace",
+        "breakdown": [
+          {
+            "token": "first = \"Ada\"",
+            "label": "Line 1",
+            "detail": "Store a given name."
+          },
+          {
+            "token": "last = \"Lovelace\"",
+            "label": "Line 2",
+            "detail": "Store a family name."
+          },
+          {
+            "token": "full = first + \" \" + last",
+            "label": "Line 3",
+            "detail": "Join the names with one explicit space."
+          },
+          {
+            "token": "print(full)",
+            "label": "Line 4",
+            "detail": "Display the newly constructed full name."
+          }
+        ],
+        "mistakes": "A string plus a number raises TypeError. Convert the number or use an f-string.",
+        "practice": "Change both names and compare + with separate print arguments."
+      },
+      {
+        "id": "b",
+        "title": "Index and slice a sequence",
+        "intro": "Objective: select characters using zero-based positions and slices.",
+        "paragraphs": [
+          "The first character is at index zero. A negative index counts from the end, so word[-1] selects the last character.",
+          "A slice word[start:stop] includes start and excludes stop. Omitting start begins at zero; omitting stop continues to the end. Slices that extend past an edge are safely shortened.",
+          "A single index outside the string raises IndexError. Before indexing real input, consider whether it might be empty. len(word) gives the character count."
+        ],
+        "code": "word = \"Python\"\nprint(word[0])\nprint(word[-1])\nprint(word[1:4])",
+        "output": "P\nn\nyth",
+        "breakdown": [
+          {
+            "token": "word = \"Python\"",
+            "label": "Line 1",
+            "detail": "Store a six-character word."
+          },
+          {
+            "token": "print(word[0])",
+            "label": "Line 2",
+            "detail": "Select the first character at zero."
+          },
+          {
+            "token": "print(word[-1])",
+            "label": "Line 3",
+            "detail": "Select the last character with a negative index."
+          },
+          {
+            "token": "print(word[1:4])",
+            "label": "Line 4",
+            "detail": "Select positions one, two and three; exclude position four."
+          }
+        ],
+        "mistakes": "[1:4] selects three characters, not four. The stop index is excluded.",
+        "practice": "Try [:2], [2:] and [-2:] and predict the results before running."
+      },
+      {
+        "id": "c",
+        "title": "Format values with f-strings",
+        "intro": "Objective: embed values and calculations inside readable text.",
+        "paragraphs": [
+          "Put f before a quoted string to allow expressions inside braces. Python evaluates each expression and inserts a text representation of its result.",
+          "An f-string can mix text and numbers without manually calling str for each one. Ordinary strings without the f prefix display the braces literally.",
+          "A format specifier controls presentation: {price:.2f} displays two decimal places. Formatting changes the text representation, not the stored numeric value."
+        ],
+        "code": "name = \"Ada\"\nprice = 3.5\nprint(f\"{name} pays {price:.2f}\")",
+        "output": "Ada pays 3.50",
+        "breakdown": [
+          {
+            "token": "name = \"Ada\"",
+            "label": "Line 1",
+            "detail": "Store the customer name."
+          },
+          {
+            "token": "price = 3.5",
+            "label": "Line 2",
+            "detail": "Store a numeric price."
+          },
+          {
+            "token": "print(f\"{name} pays {price:.2f}\")",
+            "label": "Line 3",
+            "detail": "Insert the name and format the price to two decimal places."
+          }
+        ],
+        "mistakes": "Leaving off f keeps {name} as literal text. Match each opening brace with a closing brace.",
+        "practice": "Try a price of 4 and verify that the display still contains two decimal places."
+      },
+      {
+        "id": "d",
+        "title": "Clean text with methods",
+        "intro": "Objective: use strip(), lower(), upper() and replace() to normalize text.",
+        "paragraphs": [
+          "A method is a function accessed through a value using a dot. raw.strip() returns text without leading or trailing whitespace.",
+          "lower() and upper() return versions with changed case. They are useful when comparing user entries, but keep original text if its original capitalization matters.",
+          "replace(old, new) substitutes matching pieces. Chaining methods uses the result of each previous method. None of these calls changes the original string unless you reassign it."
+        ],
+        "code": "raw = \"  Python  \"\nclean = raw.strip().lower()\nprint(clean)\nprint(clean.replace(\"python\", \"coding\"))",
+        "output": "python\ncoding",
+        "breakdown": [
+          {
+            "token": "raw = \"  Python  \"",
+            "label": "Line 1",
+            "detail": "Store a string with surrounding spaces."
+          },
+          {
+            "token": "clean = raw.strip().lower()",
+            "label": "Line 2",
+            "detail": "Trim its edges and lowercase the result."
+          },
+          {
+            "token": "print(clean)",
+            "label": "Line 3",
+            "detail": "Display the cleaned text."
+          },
+          {
+            "token": "print(clean.replace(\"python\", \"coding\"))",
+            "label": "Line 4",
+            "detail": "Replace the matching word in a new string and display it."
+          }
+        ],
+        "mistakes": "strip removes whitespace at the ends, not every space inside the text.",
+        "practice": "Try a value with spaces between words and observe what strip preserves."
+      },
+      {
+        "id": "e",
+        "title": "Practical application: format a message",
+        "intro": "Objective: combine escaped characters, cleanup and formatting.",
+        "paragraphs": [
+          "An escape sequence begins with a backslash inside a string. \\n represents a newline, \\t a tab and \\\\ a literal backslash. These are characters in the string, not separate Python statements.",
+          "Choose the outer quote style to reduce escapes: a double-quoted string can contain an apostrophe directly. A backslash can also escape a matching quote.",
+          "Final assessment: the quiz checks indexing, formatting and method behavior. The final lab task builds a cleaned contact label and a formatted numeric total from changing data."
+        ],
+        "code": "name = \"  ada  \"\nitems = 3\nprint(f\"Customer: {name.strip().title()}\\nItems: {items}\")",
+        "output": "Customer: Ada\nItems: 3",
+        "breakdown": [
+          {
+            "token": "name = \"  ada  \"",
+            "label": "Line 1",
+            "detail": "Store a name containing unwanted edge spaces."
+          },
+          {
+            "token": "items = 3",
+            "label": "Line 2",
+            "detail": "Store a numeric count."
+          },
+          {
+            "token": "print(f\"Customer: {name.strip().title()}\\nItems: {items}\")",
+            "label": "Line 3",
+            "detail": "Clean and capitalize the name, then put the item count on a new line."
+          }
+        ],
+        "mistakes": "The two characters \\n in source represent one newline in the string. Printing a raw backslash followed by n is different.",
+        "practice": "Try a multiword name and inspect the behavior of title()."
+      }
+    ],
+    "quiz": [
+      {
+        "id": "strings-q1",
+        "question": "What is \"Py\" + \"thon\"?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "Python",
+            "explanation": "String addition joins the characters."
+          },
+          {
+            "text": "Py thon",
+            "explanation": "+ does not add a separating space."
+          },
+          {
+            "text": "An error",
+            "explanation": "Both operands are strings, so concatenation is valid."
+          }
+        ]
+      },
+      {
+        "id": "strings-q2",
+        "question": "Which index selects the first character?",
+        "correct": 1,
+        "options": [
+          {
+            "text": "-1",
+            "explanation": "Negative one selects the last character."
+          },
+          {
+            "text": "0",
+            "explanation": "Python sequences use zero-based indexing."
+          },
+          {
+            "text": "1",
+            "explanation": "Index one selects the second character."
+          }
+        ]
+      },
+      {
+        "id": "strings-q3",
+        "question": "What is \"Python\"[1:4]?",
+        "correct": 2,
+        "options": [
+          {
+            "text": "ytho",
+            "explanation": "The stop index four is excluded."
+          },
+          {
+            "text": "Pyt",
+            "explanation": "This slice starts at index one, not zero."
+          },
+          {
+            "text": "yth",
+            "explanation": "Indices one through three are included."
+          }
+        ]
+      },
+      {
+        "id": "strings-q4",
+        "question": "What does text[-1] select for nonempty text?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "The last character",
+            "explanation": "Negative positions count backward from the end."
+          },
+          {
+            "text": "The first character",
+            "explanation": "Use zero for the first character."
+          },
+          {
+            "text": "The whole string",
+            "explanation": "An index selects a single character."
+          }
+        ]
+      },
+      {
+        "id": "strings-q5",
+        "question": "What is len(\"Ada\")?",
+        "correct": 1,
+        "options": [
+          {
+            "text": "4",
+            "explanation": "Quotation marks delimit the value and are not included."
+          },
+          {
+            "text": "3",
+            "explanation": "There are three characters."
+          },
+          {
+            "text": "2",
+            "explanation": "The last index is two, but length is three."
+          }
+        ]
+      },
+      {
+        "id": "strings-q6",
+        "question": "Which string embeds name?",
+        "correct": 2,
+        "options": [
+          {
+            "text": "\"Hi {name}\"",
+            "explanation": "Without f the braces remain literal text."
+          },
+          {
+            "text": "\"Hi\" + 3",
+            "explanation": "A string cannot be concatenated directly with an integer."
+          },
+          {
+            "text": "f\"Hi {name}\"",
+            "explanation": "The f prefix enables expression interpolation."
+          }
+        ]
+      },
+      {
+        "id": "strings-q7",
+        "question": "How does 3.5 display with :.2f?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "3.50",
+            "explanation": "The specifier requests two fractional digits."
+          },
+          {
+            "text": "3.5",
+            "explanation": "This omits the required second decimal place."
+          },
+          {
+            "text": "4",
+            "explanation": "This specifier does not request a whole-number display."
+          }
+        ]
+      },
+      {
+        "id": "strings-q8",
+        "question": "What does \"  a b  \".strip() produce?",
+        "correct": 1,
+        "options": [
+          {
+            "text": "  a b",
+            "explanation": "Whitespace is removed from both edges."
+          },
+          {
+            "text": "a b",
+            "explanation": "Only edge whitespace is removed."
+          },
+          {
+            "text": "ab",
+            "explanation": "The internal space is retained."
+          }
+        ]
+      },
+      {
+        "id": "strings-q9",
+        "question": "Does name.upper() change name itself?",
+        "correct": 2,
+        "options": [
+          {
+            "text": "Yes, it edits name in place",
+            "explanation": "The original binding keeps its old string."
+          },
+          {
+            "text": "It always raises an error",
+            "explanation": "upper is a normal string method."
+          },
+          {
+            "text": "No, it returns a new string",
+            "explanation": "Strings are immutable; save the result if needed."
+          }
+        ]
+      },
+      {
+        "id": "strings-q10",
+        "question": "What does \\n represent inside a normal Python string?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "A newline",
+            "explanation": "The escape sequence creates a line break."
+          },
+          {
+            "text": "The letter n only",
+            "explanation": "The backslash changes how n is interpreted."
+          },
+          {
+            "text": "A comment",
+            "explanation": "Comments begin with # outside a string."
+          }
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "id": "strings-lab-1",
+        "title": "Join two names",
+        "description": "Assign first = \"Ada\" and last = \"Lovelace\". Print the full name with one space.",
+        "starter": "",
+        "expected": "Ada Lovelace",
+        "variables": [
+          {
+            "name": "first",
+            "type": "str",
+            "value": "Ada"
+          },
+          {
+            "name": "last",
+            "type": "str",
+            "value": "Lovelace"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "first": "Grace",
+              "last": "Hopper"
+            },
+            "expected": "Grace Hopper"
+          }
+        ],
+        "hints": [
+          "Join text with + or print arguments.",
+          "Keep one space between names.",
+          "Use both stored names."
+        ],
+        "explanation": "The output follows both names.",
+        "difficulty": "Beginner",
+        "assessment": false
+      },
+      {
+        "id": "strings-lab-2",
+        "title": "First initial",
+        "description": "Assign name = \"Ada\". Print its first character.",
+        "starter": "",
+        "expected": "A",
+        "variables": [
+          {
+            "name": "name",
+            "type": "str",
+            "value": "Ada"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "name": "Grace"
+            },
+            "expected": "G"
+          }
+        ],
+        "hints": [
+          "Indexing selects one character.",
+          "The first position is zero.",
+          "Use the stored name as the sequence."
+        ],
+        "explanation": "Index zero selects the first initial.",
+        "difficulty": "Beginner",
+        "assessment": false
+      },
+      {
+        "id": "strings-lab-3",
+        "title": "Last character",
+        "description": "Assign word = \"Python\" and print its last character.",
+        "starter": "",
+        "expected": "n",
+        "variables": [
+          {
+            "name": "word",
+            "type": "str",
+            "value": "Python"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "word": "Code"
+            },
+            "expected": "e"
+          }
+        ],
+        "hints": [
+          "Negative indices count from the end.",
+          "Use -1 for the last position.",
+          "Do not assume the word always has six characters."
+        ],
+        "explanation": "A negative index works for other nonempty lengths.",
+        "difficulty": "Beginner",
+        "assessment": false
+      },
+      {
+        "id": "strings-lab-4",
+        "title": "Select a slice",
+        "description": "Assign word = \"Python\". Print characters at indices 1 through 3 inclusive.",
+        "starter": "",
+        "expected": "yth",
+        "variables": [
+          {
+            "name": "word",
+            "type": "str",
+            "value": "Python"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "word": "Coding"
+            },
+            "expected": "odi"
+          }
+        ],
+        "hints": [
+          "Start at index one.",
+          "The stop value is excluded.",
+          "Use four as the stop to include index three."
+        ],
+        "explanation": "The slice includes start and excludes stop.",
+        "difficulty": "Intermediate",
+        "assessment": false
+      },
+      {
+        "id": "strings-lab-5",
+        "title": "Clean an entry",
+        "description": "Assign raw = \"  PyTHon  \". Print its stripped lowercase form.",
+        "starter": "",
+        "expected": "python",
+        "variables": [
+          {
+            "name": "raw",
+            "type": "str",
+            "value": "  PyTHon  "
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "raw": "  CoDE  "
+            },
+            "expected": "code"
+          }
+        ],
+        "hints": [
+          "Remove edge whitespace first.",
+          "Then normalize the case.",
+          "Display the returned string."
+        ],
+        "explanation": "Methods can be chained without mutating the input.",
+        "difficulty": "Intermediate",
+        "assessment": false
+      },
+      {
+        "id": "strings-lab-6",
+        "title": "Build a greeting",
+        "description": "Assign name = \"Ada\" and age = 20. Use an f-string to print Ada is 20.",
+        "starter": "",
+        "expected": "Ada is 20",
+        "variables": [
+          {
+            "name": "name",
+            "type": "str",
+            "value": "Ada"
+          },
+          {
+            "name": "age",
+            "type": "int",
+            "value": "20"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "name": "Lin",
+              "age": 21
+            },
+            "expected": "Lin is 21"
+          }
+        ],
+        "hints": [
+          "Put f before the opening quote.",
+          "Place variable expressions in braces.",
+          "Keep the word is between the values."
+        ],
+        "explanation": "Interpolation turns the current values into readable text.",
+        "difficulty": "Intermediate",
+        "assessment": false
+      },
+      {
+        "id": "strings-lab-7",
+        "title": "Format a price",
+        "description": "Assign price = 3.5. Display Price: 3.50 with two decimal places.",
+        "starter": "",
+        "expected": "Price: 3.50",
+        "variables": [
+          {
+            "name": "price",
+            "type": "float",
+            "value": "3.5"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "price": 12.75
+            },
+            "expected": "Price: 12.75"
+          }
+        ],
+        "hints": [
+          "Use a format specifier after the expression.",
+          ".2f requests two decimal places.",
+          "Keep the original price numeric."
+        ],
+        "explanation": "Formatting controls presentation without changing the price.",
+        "difficulty": "Intermediate",
+        "assessment": false
+      },
+      {
+        "id": "strings-lab-8",
+        "title": "Replace a word",
+        "description": "Assign message = \"Hello student\". Print the message with student replaced by coder.",
+        "starter": "",
+        "expected": "Hello coder",
+        "variables": [
+          {
+            "name": "message",
+            "type": "str",
+            "value": "Hello student"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "message": "Welcome student"
+            },
+            "expected": "Welcome coder"
+          }
+        ],
+        "hints": [
+          "replace takes old and new text.",
+          "Preserve the greeting that came before the word.",
+          "Display the returned value."
+        ],
+        "explanation": "Only the matching part is replaced.",
+        "difficulty": "Challenge",
+        "assessment": false
+      },
+      {
+        "id": "strings-lab-9",
+        "title": "Two lines of text",
+        "description": "Assign first = \"Learn\" and second = \"Practice\". Print their values on separate lines using a newline or separate calls.",
+        "starter": "",
+        "expected": "Learn\nPractice",
+        "variables": [
+          {
+            "name": "first",
+            "type": "str",
+            "value": "Learn"
+          },
+          {
+            "name": "second",
+            "type": "str",
+            "value": "Practice"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "first": "Read",
+              "second": "Run"
+            },
+            "expected": "Read\nRun"
+          }
+        ],
+        "hints": [
+          "A newline separates output lines.",
+          "Use \\n inside text or two calls.",
+          "Use both stored values."
+        ],
+        "explanation": "Line breaks are part of the expected output.",
+        "difficulty": "Challenge",
+        "assessment": false
+      },
+      {
+        "id": "strings-lab-10",
+        "title": "Assessment: contact receipt",
+        "description": "Assign raw_name = \"  ada  \", quantity = 3 and price = 2.5. Print Customer: Ada and Total: 7.50 on separate lines. Clean the name and calculate the total.",
+        "starter": "",
+        "expected": "Customer: Ada\nTotal: 7.50",
+        "variables": [
+          {
+            "name": "raw_name",
+            "type": "str",
+            "value": "  ada  "
+          },
+          {
+            "name": "quantity",
+            "type": "int",
+            "value": "3"
+          },
+          {
+            "name": "price",
+            "type": "float",
+            "value": "2.5"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "raw_name": " grace ",
+              "quantity": 2,
+              "price": 4.25
+            },
+            "expected": "Customer: Grace\nTotal: 8.50"
+          }
+        ],
+        "hints": [
+          "Clean the name before capitalizing it.",
+          "Multiply quantity and price.",
+          "Format the numeric result with two fractional digits."
+        ],
+        "explanation": "The receipt combines cleanup, interpolation and numeric calculation.",
+        "difficulty": "Challenge",
+        "assessment": true
+      }
+    ]
+  },
+  {
+    "id": "conditionals",
+    "number": 6,
+    "level": 1,
+    "title": "Conditional Statements",
+    "subtitle": "Five guided reading lessons, a ten-question quiz, and a ten-task practical assessment.",
+    "time": "45–60 minutes, excluding the lab",
+    "prerequisite": "strings",
+    "sections": [
+      {
+        "id": "a",
+        "title": "Choose a path with if",
+        "intro": "Objective: run a block only when a condition is true.",
+        "paragraphs": [
+          "An if statement evaluates a condition. When the result is true, Python runs the indented block beneath it. When false, Python skips that block.",
+          "The header ends with a colon. Indentation groups the statements in the block; use four spaces consistently. A line back at the outer indentation is outside the block.",
+          "Test both a true and a false condition. A program that works once may still contain an off-by-one boundary error."
+        ],
+        "code": "age = 18\nif age >= 18:\n    print(\"Adult\")\nprint(\"Checked\")",
+        "output": "Adult\nChecked",
+        "breakdown": [
+          {
+            "token": "age = 18",
+            "label": "Line 1",
+            "detail": "Store the age to inspect."
+          },
+          {
+            "token": "if age >= 18:",
+            "label": "Line 2",
+            "detail": "Check an inclusive lower bound; the colon starts the block."
+          },
+          {
+            "token": "    print(\"Adult\")",
+            "label": "Line 3",
+            "detail": "Run this indented line only when the condition is true."
+          },
+          {
+            "token": "print(\"Checked\")",
+            "label": "Line 4",
+            "detail": "Run this outer line regardless of the condition."
+          }
+        ],
+        "mistakes": "A missing colon raises SyntaxError; inconsistent indentation can raise IndentationError.",
+        "practice": "Try ages 17 and 18 and explain which lines run."
+      },
+      {
+        "id": "b",
+        "title": "Give an alternative with else",
+        "intro": "Objective: select exactly one of two branches.",
+        "paragraphs": [
+          "else supplies the alternative when the if condition is false. It has a colon but no condition, because it covers all remaining cases.",
+          "Align else with its if, then indent the body. Exactly one of the two blocks runs for each evaluation.",
+          "A common decision is whether a balance covers a cost. Equality belongs in the affordable branch when a balance exactly equal to the cost is enough."
+        ],
+        "code": "balance = 10\ncost = 10\nif balance >= cost:\n    print(\"Affordable\")\nelse:\n    print(\"Save more\")",
+        "output": "Affordable",
+        "breakdown": [
+          {
+            "token": "balance = 10",
+            "label": "Line 1",
+            "detail": "Store the available balance."
+          },
+          {
+            "token": "cost = 10",
+            "label": "Line 2",
+            "detail": "Store the requested cost."
+          },
+          {
+            "token": "if balance >= cost:",
+            "label": "Line 3",
+            "detail": "Check whether the balance is enough, including equality."
+          },
+          {
+            "token": "    print(\"Affordable\")",
+            "label": "Line 4",
+            "detail": "Display the success branch."
+          },
+          {
+            "token": "else:",
+            "label": "Line 5",
+            "detail": "Choose the alternative when the condition is false."
+          },
+          {
+            "token": "    print(\"Save more\")",
+            "label": "Line 6",
+            "detail": "Explain that the balance is insufficient."
+          }
+        ],
+        "mistakes": "Two separate if statements can both run; if/else chooses one branch.",
+        "practice": "Try a balance below, equal to and above the cost."
+      },
+      {
+        "id": "c",
+        "title": "Order several cases with elif",
+        "intro": "Objective: make an ordered multiway decision.",
+        "paragraphs": [
+          "elif means else if. Python checks conditions from top to bottom and executes only the first matching branch in an if/elif/else chain.",
+          "Order thresholds from the most restrictive to the least restrictive. If score >= 50 comes before score >= 80, a score of ninety matches fifty first.",
+          "The final else is a fallback. Think about every possible input, including the exact boundaries, before deciding what the fallback should mean."
+        ],
+        "code": "score = 80\nif score >= 80:\n    print(\"Excellent\")\nelif score >= 50:\n    print(\"Pass\")\nelse:\n    print(\"Retry\")",
+        "output": "Excellent",
+        "breakdown": [
+          {
+            "token": "score = 80",
+            "label": "Line 1",
+            "detail": "Store an assessment score."
+          },
+          {
+            "token": "if score >= 80:",
+            "label": "Line 2",
+            "detail": "Test the highest threshold first."
+          },
+          {
+            "token": "    print(\"Excellent\")",
+            "label": "Line 3",
+            "detail": "Label the high-score band."
+          },
+          {
+            "token": "elif score >= 50:",
+            "label": "Line 4",
+            "detail": "Check the next band only after the first condition is false."
+          },
+          {
+            "token": "    print(\"Pass\")",
+            "label": "Line 5",
+            "detail": "Label a passing score."
+          },
+          {
+            "token": "else:",
+            "label": "Line 6",
+            "detail": "Handle every remaining score."
+          },
+          {
+            "token": "    print(\"Retry\")",
+            "label": "Line 7",
+            "detail": "Offer a retry for the lower band."
+          }
+        ],
+        "mistakes": "Using several independent if statements may print multiple grade labels. Use a chain when one label is required.",
+        "practice": "Try 49, 50, 79 and 80 and make a small boundary table."
+      },
+      {
+        "id": "d",
+        "title": "Combine and nest decisions",
+        "intro": "Objective: express compound rules and nested checks clearly.",
+        "paragraphs": [
+          "Use and when two facts must hold, or when either fact is sufficient, and not to reverse a fact. Parentheses make mixed rules readable.",
+          "A nested if is evaluated only inside a selected outer branch. For a delivery, first check that the address is supported; only then inspect an express-service option.",
+          "Prefer one combined condition for a simple two-fact rule. Nest when each stage needs its own explanation or different feedback."
+        ],
+        "code": "supported = True\nexpress = False\nif supported:\n    if express:\n        print(\"Express\")\n    else:\n        print(\"Standard\")\nelse:\n    print(\"Unavailable\")",
+        "output": "Standard",
+        "breakdown": [
+          {
+            "token": "supported = True",
+            "label": "Line 1",
+            "detail": "Store whether the address is supported."
+          },
+          {
+            "token": "express = False",
+            "label": "Line 2",
+            "detail": "Store whether express service was selected."
+          },
+          {
+            "token": "if supported:",
+            "label": "Line 3",
+            "detail": "Enter the delivery branch only for supported addresses."
+          },
+          {
+            "token": "    if express:",
+            "label": "Line 4",
+            "detail": "Inspect the express option inside that branch."
+          },
+          {
+            "token": "        print(\"Express\")",
+            "label": "Line 5",
+            "detail": "Select express delivery."
+          },
+          {
+            "token": "    else:",
+            "label": "Line 6",
+            "detail": "Choose the inner alternative."
+          },
+          {
+            "token": "        print(\"Standard\")",
+            "label": "Line 7",
+            "detail": "Select standard delivery."
+          },
+          {
+            "token": "else:",
+            "label": "Line 8",
+            "detail": "Handle an unsupported address at the outer level."
+          },
+          {
+            "token": "    print(\"Unavailable\")",
+            "label": "Line 9",
+            "detail": "Explain why no delivery is available."
+          }
+        ],
+        "mistakes": "An else belongs to the if at the same indentation level. Check alignment to see which decision it completes.",
+        "practice": "Try all four combinations of supported and express."
+      },
+      {
+        "id": "e",
+        "title": "Practical application: admission policy",
+        "intro": "Objective: translate a written policy into complete decisions.",
+        "paragraphs": [
+          "Write the rule in plain language first: a ticket is required; children below twelve use the child rate; everyone else uses the standard rate.",
+          "Check admission before computing the rate. Test a missing ticket, the age just below the threshold and the exact threshold itself.",
+          "Final assessment: the quiz checks branch selection and indentation. The final lab task combines ticket and age decisions and must respond correctly to changed data. Failed submissions can be retried without losing earlier passes."
+        ],
+        "code": "age = 12\nhas_ticket = True\nif not has_ticket:\n    print(\"Ticket required\")\nelif age < 12:\n    print(\"Child rate\")\nelse:\n    print(\"Standard rate\")",
+        "output": "Standard rate",
+        "breakdown": [
+          {
+            "token": "age = 12",
+            "label": "Line 1",
+            "detail": "Store the visitor age."
+          },
+          {
+            "token": "has_ticket = True",
+            "label": "Line 2",
+            "detail": "Store the ticket fact."
+          },
+          {
+            "token": "if not has_ticket:",
+            "label": "Line 3",
+            "detail": "Reject visitors without a ticket first."
+          },
+          {
+            "token": "    print(\"Ticket required\")",
+            "label": "Line 4",
+            "detail": "Explain the missing requirement."
+          },
+          {
+            "token": "elif age < 12:",
+            "label": "Line 5",
+            "detail": "For ticket holders, test the child-rate boundary."
+          },
+          {
+            "token": "    print(\"Child rate\")",
+            "label": "Line 6",
+            "detail": "Select the child rate."
+          },
+          {
+            "token": "else:",
+            "label": "Line 7",
+            "detail": "Handle the remaining ticket holders."
+          },
+          {
+            "token": "    print(\"Standard rate\")",
+            "label": "Line 8",
+            "detail": "Select the standard rate."
+          }
+        ],
+        "mistakes": "Use < 12 for ages below twelve; <= 12 would include twelve and change the policy.",
+        "practice": "Make a boundary table for ages 11 and 12 with and without a ticket."
+      }
+    ],
+    "quiz": [
+      {
+        "id": "conditionals-q1",
+        "question": "What ends an if header?",
+        "correct": 0,
+        "options": [
+          {
+            "text": ":",
+            "explanation": "The colon introduces an indented block."
+          },
+          {
+            "text": ";",
+            "explanation": "Semicolons do not introduce blocks."
+          },
+          {
+            "text": "{}",
+            "explanation": "Python uses indentation rather than braces for blocks."
+          }
+        ]
+      },
+      {
+        "id": "conditionals-q2",
+        "question": "When does the body of if False run?",
+        "correct": 1,
+        "options": [
+          {
+            "text": "Twice",
+            "explanation": "An if is a decision, not a loop."
+          },
+          {
+            "text": "It is skipped",
+            "explanation": "A false condition skips its body."
+          },
+          {
+            "text": "Always",
+            "explanation": "The body runs only when the condition is true."
+          }
+        ]
+      },
+      {
+        "id": "conditionals-q3",
+        "question": "What does else mean?",
+        "correct": 2,
+        "options": [
+          {
+            "text": "Check the same condition again",
+            "explanation": "else does not contain a condition."
+          },
+          {
+            "text": "Run both blocks",
+            "explanation": "Only one branch of an if/else pair runs."
+          },
+          {
+            "text": "Run this block when the if condition was false",
+            "explanation": "else is the alternative branch."
+          }
+        ]
+      },
+      {
+        "id": "conditionals-q4",
+        "question": "How many branches run in one if/elif/else chain?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "Exactly one when a final else is present",
+            "explanation": "The first matching condition or the fallback runs."
+          },
+          {
+            "text": "Every true branch",
+            "explanation": "Only the first matching branch runs."
+          },
+          {
+            "text": "Always zero",
+            "explanation": "The final else covers the case where no condition matches."
+          }
+        ]
+      },
+      {
+        "id": "conditionals-q5",
+        "question": "Which threshold should come first for scores 80+ and 50+?",
+        "correct": 1,
+        "options": [
+          {
+            "text": "Order never matters",
+            "explanation": "Python stops at the first matching branch."
+          },
+          {
+            "text": "80+",
+            "explanation": "Test the most restrictive threshold first."
+          },
+          {
+            "text": "50+",
+            "explanation": "That would capture high scores before they reach the 80+ branch."
+          }
+        ]
+      },
+      {
+        "id": "conditionals-q6",
+        "question": "Which age passes age >= 18?",
+        "correct": 2,
+        "options": [
+          {
+            "text": "17",
+            "explanation": "Seventeen is below the lower limit."
+          },
+          {
+            "text": "Every age",
+            "explanation": "The condition still checks a numeric threshold."
+          },
+          {
+            "text": "18",
+            "explanation": "The inclusive comparison includes the boundary."
+          }
+        ]
+      },
+      {
+        "id": "conditionals-q7",
+        "question": "What does indentation control?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "Which statements belong to a block",
+            "explanation": "Indented statements form the branch body."
+          },
+          {
+            "text": "Only how code looks",
+            "explanation": "Indentation is part of Python syntax."
+          },
+          {
+            "text": "The value of a string",
+            "explanation": "Indentation outside a string groups statements."
+          }
+        ]
+      },
+      {
+        "id": "conditionals-q8",
+        "question": "Which rule requires both age and a ticket?",
+        "correct": 1,
+        "options": [
+          {
+            "text": "not has_ticket",
+            "explanation": "This asks for the absence of a ticket."
+          },
+          {
+            "text": "age >= 18 and has_ticket",
+            "explanation": "and requires both conditions."
+          },
+          {
+            "text": "age >= 18 or has_ticket",
+            "explanation": "or allows either condition alone."
+          }
+        ]
+      },
+      {
+        "id": "conditionals-q9",
+        "question": "When is a nested if evaluated?",
+        "correct": 2,
+        "options": [
+          {
+            "text": "Before every outer condition",
+            "explanation": "Statements run in program order."
+          },
+          {
+            "text": "Never",
+            "explanation": "Nested decisions are valid Python."
+          },
+          {
+            "text": "When execution reaches it in the selected outer branch",
+            "explanation": "The outer branch determines whether that code is reached."
+          }
+        ]
+      },
+      {
+        "id": "conditionals-q10",
+        "question": "Which tests best cover a threshold of twelve?",
+        "correct": 0,
+        "options": [
+          {
+            "text": "11, 12 and 13",
+            "explanation": "These check below, at and above the boundary."
+          },
+          {
+            "text": "Only 100",
+            "explanation": "A distant value does not check the boundary."
+          },
+          {
+            "text": "Only 12 twice",
+            "explanation": "Repeating the same input adds no boundary coverage."
+          }
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "id": "conditionals-lab-1",
+        "title": "Age decision",
+        "description": "Assign age = 18. Print Adult if age >= 18, otherwise print Minor.",
+        "starter": "",
+        "expected": "Adult",
+        "variables": [
+          {
+            "name": "age",
+            "type": "int",
+            "value": "18"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "age": 17
+            },
+            "expected": "Minor"
+          }
+        ],
+        "hints": [
+          "Compare age to the inclusive bound.",
+          "Use if and else.",
+          "Indent each branch body."
+        ],
+        "explanation": "The exact adulthood boundary is included.",
+        "difficulty": "Beginner",
+        "assessment": false
+      },
+      {
+        "id": "conditionals-lab-2",
+        "title": "Even or odd",
+        "description": "Assign number = 8. Print Even if divisible by two, otherwise Odd.",
+        "starter": "",
+        "expected": "Even",
+        "variables": [
+          {
+            "name": "number",
+            "type": "int",
+            "value": "8"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "number": 9
+            },
+            "expected": "Odd"
+          }
+        ],
+        "hints": [
+          "Use the remainder operator.",
+          "A remainder of zero means divisibility.",
+          "Choose one label with if/else."
+        ],
+        "explanation": "Remainder classifies both positive and negative integers by parity.",
+        "difficulty": "Beginner",
+        "assessment": false
+      },
+      {
+        "id": "conditionals-lab-3",
+        "title": "Enough funds",
+        "description": "Assign balance = 10 and cost = 10. Print Affordable when balance covers cost, otherwise Save more.",
+        "starter": "",
+        "expected": "Affordable",
+        "variables": [
+          {
+            "name": "balance",
+            "type": "int",
+            "value": "10"
+          },
+          {
+            "name": "cost",
+            "type": "int",
+            "value": "10"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "balance": 9
+            },
+            "expected": "Save more"
+          }
+        ],
+        "hints": [
+          "Equal funds are sufficient.",
+          "Use >= rather than >.",
+          "Display exactly one of the labels."
+        ],
+        "explanation": "Equality is an affordable purchase.",
+        "difficulty": "Beginner",
+        "assessment": false
+      },
+      {
+        "id": "conditionals-lab-4",
+        "title": "Three score bands",
+        "description": "Assign score = 80. Print Excellent for scores >= 80, Pass for scores >= 50, otherwise Retry.",
+        "starter": "",
+        "expected": "Excellent",
+        "variables": [
+          {
+            "name": "score",
+            "type": "int",
+            "value": "80"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "score": 50
+            },
+            "expected": "Pass"
+          },
+          {
+            "name": "score below passing",
+            "overrides": {
+              "score": 49
+            },
+            "expected": "Retry"
+          },
+          {
+            "name": "score just below excellent",
+            "overrides": {
+              "score": 79
+            },
+            "expected": "Pass"
+          }
+        ],
+        "hints": [
+          "Put the highest threshold first.",
+          "Use elif for the middle band.",
+          "Use else for lower scores."
+        ],
+        "explanation": "Ordered branches prevent a high score being captured by a lower threshold.",
+        "difficulty": "Intermediate",
+        "assessment": false
+      },
+      {
+        "id": "conditionals-lab-5",
+        "title": "Sign of a number",
+        "description": "Assign number = 0. Print Positive, Negative or Zero according to its sign.",
+        "starter": "",
+        "expected": "Zero",
+        "variables": [
+          {
+            "name": "number",
+            "type": "int",
+            "value": "0"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "number": -3
+            },
+            "expected": "Negative"
+          },
+          {
+            "name": "positive number",
+            "overrides": {
+              "number": 2
+            },
+            "expected": "Positive"
+          }
+        ],
+        "hints": [
+          "Check greater than zero.",
+          "Check less than zero next.",
+          "The remaining case is exactly zero."
+        ],
+        "explanation": "A complete chain handles zero explicitly.",
+        "difficulty": "Intermediate",
+        "assessment": false
+      },
+      {
+        "id": "conditionals-lab-6",
+        "title": "Two requirements",
+        "description": "Assign age = 20 and has_ticket = True. Print Enter only when age >= 18 and a ticket is present; otherwise print Wait.",
+        "starter": "",
+        "expected": "Enter",
+        "variables": [
+          {
+            "name": "age",
+            "type": "int",
+            "value": "20"
+          },
+          {
+            "name": "has_ticket",
+            "type": "bool",
+            "value": "True"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "has_ticket": false
+            },
+            "expected": "Wait"
+          },
+          {
+            "name": "age below boundary",
+            "overrides": {
+              "age": 17
+            },
+            "expected": "Wait"
+          }
+        ],
+        "hints": [
+          "Both requirements must hold.",
+          "Combine the facts with and.",
+          "Use an alternative for failed requirements."
+        ],
+        "explanation": "A ticket alone or an age alone is insufficient.",
+        "difficulty": "Intermediate",
+        "assessment": false
+      },
+      {
+        "id": "conditionals-lab-7",
+        "title": "Either qualification",
+        "description": "Assign is_member = False and has_coupon = True. Print Discount if either fact is true, otherwise Full price.",
+        "starter": "",
+        "expected": "Discount",
+        "variables": [
+          {
+            "name": "is_member",
+            "type": "bool",
+            "value": "False"
+          },
+          {
+            "name": "has_coupon",
+            "type": "bool",
+            "value": "True"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "is_member": false,
+              "has_coupon": false
+            },
+            "expected": "Full price"
+          }
+        ],
+        "hints": [
+          "One qualifying fact is enough.",
+          "Use or for either condition.",
+          "Reject only when neither fact holds."
+        ],
+        "explanation": "or accepts either qualification.",
+        "difficulty": "Intermediate",
+        "assessment": false
+      },
+      {
+        "id": "conditionals-lab-8",
+        "title": "Choose delivery",
+        "description": "Assign supported = True and express = False. Print Unavailable if not supported; otherwise Express if express is true, or Standard if false.",
+        "starter": "",
+        "expected": "Standard",
+        "variables": [
+          {
+            "name": "supported",
+            "type": "bool",
+            "value": "True"
+          },
+          {
+            "name": "express",
+            "type": "bool",
+            "value": "False"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "supported": false,
+              "express": true
+            },
+            "expected": "Unavailable"
+          },
+          {
+            "name": "supported express",
+            "overrides": {
+              "express": true
+            },
+            "expected": "Express"
+          }
+        ],
+        "hints": [
+          "Check support before the express option.",
+          "Align each else with its matching if.",
+          "A supported nonexpress request uses Standard."
+        ],
+        "explanation": "The outer rule prevents express requests bypassing address support.",
+        "difficulty": "Challenge",
+        "assessment": false
+      },
+      {
+        "id": "conditionals-lab-9",
+        "title": "Comfortable temperature",
+        "description": "Assign temperature = 20. Print Comfortable when 18 <= temperature <= 25, otherwise Adjust.",
+        "starter": "",
+        "expected": "Comfortable",
+        "variables": [
+          {
+            "name": "temperature",
+            "type": "int",
+            "value": "20"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "temperature": 26
+            },
+            "expected": "Adjust"
+          },
+          {
+            "name": "temperature 17",
+            "overrides": {
+              "temperature": 17
+            },
+            "expected": "Adjust"
+          },
+          {
+            "name": "temperature 18",
+            "overrides": {
+              "temperature": 18
+            },
+            "expected": "Comfortable"
+          },
+          {
+            "name": "temperature 25",
+            "overrides": {
+              "temperature": 25
+            },
+            "expected": "Comfortable"
+          }
+        ],
+        "hints": [
+          "Both bounds are inclusive.",
+          "Use a chained comparison or and.",
+          "Test outside both ends."
+        ],
+        "explanation": "The range has two inclusive boundaries.",
+        "difficulty": "Challenge",
+        "assessment": false
+      },
+      {
+        "id": "conditionals-lab-10",
+        "title": "Assessment: admission policy",
+        "description": "Assign age = 12 and has_ticket = True. Without a ticket print Ticket required. With a ticket, print Child rate below age 12, otherwise Standard rate.",
+        "starter": "",
+        "expected": "Standard rate",
+        "variables": [
+          {
+            "name": "age",
+            "type": "int",
+            "value": "12"
+          },
+          {
+            "name": "has_ticket",
+            "type": "bool",
+            "value": "True"
+          }
+        ],
+        "cases": [
+          {
+            "name": "the practice data changes",
+            "overrides": {
+              "age": 11
+            },
+            "expected": "Child rate"
+          },
+          {
+            "name": "adult without ticket",
+            "overrides": {
+              "has_ticket": false
+            },
+            "expected": "Ticket required"
+          },
+          {
+            "name": "child without ticket",
+            "overrides": {
+              "age": 11,
+              "has_ticket": false
+            },
+            "expected": "Ticket required"
+          }
+        ],
+        "hints": [
+          "Check the ticket before the rate.",
+          "The child threshold excludes twelve.",
+          "Use one complete decision chain."
+        ],
+        "explanation": "Admission and rate decisions cover every ticket/age combination.",
+        "difficulty": "Challenge",
+        "assessment": true
+      }
+    ]
+  }
+]

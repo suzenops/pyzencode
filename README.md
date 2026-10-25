@@ -4,6 +4,10 @@
 
 A functional Python learning academy for absolute beginners. React + TypeScript + Vite + Tailwind, FastAPI metadata services, and real Pyodide Python execution in a Web Worker. 
 
+## Curriculum expansion (Phase 2)
+
+The focused `feat/modules-2-to-5` change extends the existing reader with conversions, booleans and prepared input, followed by operators, strings and conditionals. It adds 20 guided reading lessons inside four content units, 40 quiz questions and 40 graded exercises while retaining the original two lessons and their saved progress. See the [Phase 1 audit](docs/PHASE1_AUDIT.md) and [Phase 2 implementation and validation](docs/PHASE2.md) for scope and limitations. Modules 6–12 remain future phases.
+
 ## Progress recovery
 
 Earned completion is now recorded permanently rather than recalculated from quiz review answers. Existing version-1 progress is retained, with automatic legacy recovery and an untouched original backup. Use the progress page's private Export/Import controls to transfer between Vercel addresses. See [recovery instructions and session limits](docs/PROGRESS_RECOVERY.md). The app still uses browser-local storage; account/cloud synchronization is not implemented.
@@ -115,7 +119,7 @@ Each run creates a fresh worker/interpreter and terminates it after a result or 
 
 A worker separates execution from the main UI, **but is not a hostile-code security sandbox**. Pyodide can access worker JavaScript, networking and some same-origin browser capabilities. Memory-hungry code can still affect the browser; there is no enforceable memory quota. Local grading/progress can be tampered with and must not certify high-stakes assessments. See [SECURITY.md](SECURITY.md) before adding authentication or server features.
 
-Interactive `input()` is not supported; it produces a clear error. External Python package installation is not provided. Browser filesystem changes are ephemeral. No server receives student source, output or progress in this version. The Python helper is a static browser asset fetched by the worker; FastAPI does not execute it on behalf of students. Do not put secrets in example code or browser storage. Local progress is device/browser-specific and can be lost when storage is cleared; failed saves are visibly reported. You can delete progress and drafts from the progress page. No analytics or tracking is included.
+`input()` consumes prepared lines entered before running; it does not open a blocking input dialog. Check Answer uses fixed exercise input, and exhausted input produces EOFError. Input is not persisted. External Python package installation is not provided. Browser filesystem changes are ephemeral. No server receives student source, output or progress in this version. The Python helper is a static browser asset fetched by the worker; FastAPI does not execute it on behalf of students. Do not put secrets in example code or browser storage. Local progress is device/browser-specific and can be lost when storage is cleared; failed saves are visibly reported. You can delete progress and drafts from the progress page. No analytics or tracking is included.
 
 ## Deployment
 

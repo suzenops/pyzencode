@@ -14,7 +14,7 @@ export function explainError(error: PythonError): string {
     case "TypeError":
       return "The operation received a kind of value it cannot use. For example, + cannot directly combine a number with text. Check the types of your values.";
     case "IndentationError":
-      return "The spaces at the start of a line do not match Python’s structure. In this lesson, ordinary print calls can start at the left edge.";
+      return "The spaces at the start of a line do not match Python’s structure. Use consistent indentation for branch bodies and align else with its matching if.";
     case "TimeoutError":
       return "The worker was terminated so your page stays usable. Look for code that never finishes. Retry starts a fresh Python interpreter.";
     case "OutputLimitError":

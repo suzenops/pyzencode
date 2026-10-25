@@ -11,6 +11,7 @@ export type GradeFeedback = {
 export function gradingOptions(exercise: Exercise): RunOptions | undefined {
   return exercise.variables
     ? {
+        inputs: exercise.inputs,
         observe: exercise.variables.map((v) => v.name),
         cases: exercise.cases?.map(({ name, overrides }) => ({
           name,
